@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import useStyles from "../../useStyles.js";
 import { GENERAL_QUESTIONS, STATE_QUESTIONS, STATES, shuffle } from "../../data/citizenshipQuestions.js";
 
+const assetPath = (p) => import.meta.env.BASE_URL + p.slice(1);
+
 export default function ExamMode({ selectedState, onBack, onComplete }) {
   const { S } = useStyles();
   const [phase, setPhase] = useState("intro");
@@ -171,7 +173,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                   <div style={{ color: S.p.headingText, fontSize: 16, lineHeight: 1.6 }}>{q.q}</div>
                   {q.img && (
                     <div style={{ marginTop: 10 }}>
-                      <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
+                      <img src={assetPath(q.img)} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
                     </div>
                   )}
                 </div>
@@ -192,7 +194,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                     <span style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${ans === oi ? "#F5C842" : S.p.border15}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                       {ans === oi && <span style={{ width: 10, height: 10, borderRadius: 5, background: "#F5C842", display: "block" }} />}
                     </span>
-                    {q.optImgs?.[oi] && <img src={q.optImgs[oi]} alt="" style={{ maxWidth: "100%", maxHeight: 100, borderRadius: 6 }} />}
+                    {q.optImgs?.[oi] && <img src={assetPath(q.optImgs[oi])} alt="" style={{ maxWidth: "100%", maxHeight: 100, borderRadius: 6 }} />}
                     {opt}
                   </button>
                 ))}

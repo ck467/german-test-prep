@@ -3,6 +3,8 @@ import useStyles from "../../useStyles.js";
 import ProgressBar from "../shared/ProgressBar.jsx";
 import ScoreBadge from "../shared/ScoreBadge.jsx";
 
+const assetPath = (p) => import.meta.env.BASE_URL + p.slice(1);
+
 export default function PracticeMode({ questions, title, onBack, onComplete }) {
   const { S } = useStyles();
   const [idx, setIdx] = useState(0);
@@ -108,7 +110,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
         <div style={{ fontSize: 17, color: S.p.headingText, lineHeight: 1.6, fontWeight: 500 }}>{q.q}</div>
         {q.img && (
           <div style={{ marginTop: 14 }}>
-            <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
+            <img src={assetPath(q.img)} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
           </div>
         )}
       </div>
@@ -135,7 +137,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
               <span style={{ width: 26, height: 26, borderRadius: 6, border: `1px solid ${color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0, color }}>
                 {selected !== null && i === q.a ? "✓" : selected !== null && i === selected && !isCorrect ? "✗" : (q.img || q.optImgs) ? String(i + 1) : String.fromCharCode(65 + i)}
               </span>
-              {q.optImgs?.[i] && <img src={q.optImgs[i]} alt="" style={{ maxWidth: "100%", maxHeight: 120, borderRadius: 6 }} />}
+              {q.optImgs?.[i] && <img src={assetPath(q.optImgs[i])} alt="" style={{ maxWidth: "100%", maxHeight: 120, borderRadius: 6 }} />}
               {opt}
             </button>
           );
