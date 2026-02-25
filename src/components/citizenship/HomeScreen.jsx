@@ -7,8 +7,8 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
   const generalStats = stats.general;
 
   return (
-    <div style={{ ...S.inner, paddingTop: 20, paddingBottom: 20 }}>
-      <div style={{ marginBottom: 24 }}>
+    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: "24px 24px" }}>
+      <div style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
           <span style={{ fontSize: 24 }}>🇩🇪</span>
           <h1 style={{ ...S.h1, fontSize: 28 }}>German Citizenship Test</h1>
@@ -19,12 +19,12 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
       </div>
 
       {/* State Selector */}
-      <div style={{ ...S.card({ padding: "16px 24px" }), marginBottom: 16 }}>
-        <div style={{ fontWeight: 600, color: S.p.headingText, marginBottom: 8 }}>Your Federal State (for the exam)</div>
+      <div style={{ ...S.card({ padding: "14px 20px" }), marginBottom: 16 }}>
+        <div style={{ fontWeight: 600, color: S.p.headingText, marginBottom: 8, fontSize: 14 }}>Your Federal State (for the exam)</div>
         <select
           value={selectedState}
           onChange={e => setSelectedState(e.target.value)}
-          style={{ width: "100%", background: S.p.selectBg, color: S.p.bodyText, border: `1px solid ${S.p.border15}`, borderRadius: 8, padding: "10px 14px", fontSize: 15, cursor: "pointer", outline: "none" }}
+          style={{ width: "100%", background: S.p.selectBg, color: S.p.bodyText, border: `1px solid ${S.p.border15}`, borderRadius: 8, padding: "8px 12px", fontSize: 14, cursor: "pointer", outline: "none" }}
         >
           {STATES.map(s => (
             <option key={s.key} value={s.key}>{s.name}</option>
@@ -33,7 +33,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
       </div>
 
       {/* Mode Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 16, flex: 1 }}>
         {[
           {
             icon: "📚", label: "Practice All", desc: "300 general questions", sub: "With instant feedback", mode: "practiceGeneral",
@@ -51,15 +51,15 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
           <div
             key={card.mode}
             onClick={() => onMode(card.mode)}
-            style={{ ...S.card({ padding: "16px 16px" }), cursor: "pointer", transition: "all 0.2s", textAlign: "center" }}
+            style={{ ...S.card({ padding: "20px 16px" }), cursor: "pointer", transition: "all 0.2s", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(245,200,66,0.4)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = S.p.border08; e.currentTarget.style.transform = ""; }}
           >
-            <div style={{ fontSize: 26, marginBottom: 6 }}>{card.icon}</div>
-            <div style={{ fontWeight: 700, color: S.p.headingText, marginBottom: 3, fontSize: 14 }}>{card.label}</div>
-            <div style={{ color: S.p.textMuted, fontSize: 12, marginBottom: 8 }}>{card.desc}</div>
+            <div style={{ fontSize: 32, marginBottom: 8 }}>{card.icon}</div>
+            <div style={{ fontWeight: 700, color: S.p.headingText, marginBottom: 4, fontSize: 15 }}>{card.label}</div>
+            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 10 }}>{card.desc}</div>
             <span style={S.tag}>{card.sub}</span>
-            {card.stat && <div style={{ marginTop: 8, fontSize: 13, color: "#F5C842", fontWeight: 600 }}>{card.stat}</div>}
+            {card.stat && <div style={{ marginTop: 10, fontSize: 13, color: "#F5C842", fontWeight: 600 }}>{card.stat}</div>}
           </div>
         ))}
       </div>

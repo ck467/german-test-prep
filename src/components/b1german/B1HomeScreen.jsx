@@ -66,17 +66,20 @@ export default function B1HomeScreen({
   };
 
   return (
-    <div style={{ ...S.inner, paddingTop: 20, paddingBottom: 20 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: "24px 24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, flex: 1, gridTemplateRows: "1fr 1fr" }}>
         {MODULE_CARDS.map((card) => (
           <div
             key={card.key}
             onClick={handlers[card.key]}
             style={{
-              ...S.card({ padding: "16px 20px" }),
+              ...S.card({ padding: "24px 24px" }),
               cursor: "pointer",
               transition: "all 0.25s",
               borderColor: card.border,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = card.borderHover;
@@ -87,14 +90,14 @@ export default function B1HomeScreen({
               e.currentTarget.style.transform = "";
             }}
           >
-            <div style={{ fontSize: 26, marginBottom: 6 }}>{card.icon}</div>
-            <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 16, marginBottom: 3 }}>
+            <div style={{ fontSize: 32, marginBottom: 8 }}>{card.icon}</div>
+            <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 18, marginBottom: 4 }}>
               {card.title}
             </div>
-            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 10, lineHeight: 1.4 }}>
+            <div style={{ color: S.p.textMuted, fontSize: 14, marginBottom: 12, lineHeight: 1.4 }}>
               {card.subtitle}
             </div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {card.tags.map((tag) => (
                 <span
                   key={tag}
@@ -115,8 +118,7 @@ export default function B1HomeScreen({
 
       <div
         style={{
-          marginTop: 14,
-          padding: "8px 0",
+          marginTop: 16,
           textAlign: "center",
           color: S.p.textMuted,
           fontSize: 13,
