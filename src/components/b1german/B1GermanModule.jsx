@@ -6,10 +6,11 @@ import FlashcardMode from "./FlashcardMode.jsx";
 import QuizMode from "./QuizMode.jsx";
 import ExamPractice from "./ExamPractice.jsx";
 import StudyPlan from "./StudyPlan.jsx";
+import CheatSheets from "./CheatSheets.jsx";
 import { B1_EXAMS } from "../../data/b1Exams.js";
 
 export default function B1GermanModule() {
-  const [screen, setScreen] = useState("home"); // home | flashcards | quiz | exam | studyplan
+  const [screen, setScreen] = useState("home"); // home | flashcards | quiz | exam | studyplan | cheatsheets
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedExam, setSelectedExam] = useState(null);
 
@@ -25,6 +26,10 @@ export default function B1GermanModule() {
 
   const handleSelectStudyPlan = () => {
     setScreen("studyplan");
+  };
+
+  const handleSelectCheatSheets = () => {
+    setScreen("cheatsheets");
   };
 
   const handleStartQuiz = () => {
@@ -57,11 +62,14 @@ export default function B1GermanModule() {
         {screen === "studyplan" && (
           <button style={S.navBtn(true)}>Study Plan</button>
         )}
+        {screen === "cheatsheets" && (
+          <button style={S.navBtn(true)}>Cheat Sheets</button>
+        )}
       </>
     }>
 
       {screen === "home" && (
-        <B1HomeScreen onSelectTopic={handleSelectTopic} onSelectExam={handleSelectExam} onSelectStudyPlan={handleSelectStudyPlan} exams={B1_EXAMS} />
+        <B1HomeScreen onSelectTopic={handleSelectTopic} onSelectExam={handleSelectExam} onSelectStudyPlan={handleSelectStudyPlan} onSelectCheatSheets={handleSelectCheatSheets} exams={B1_EXAMS} />
       )}
 
       {screen === "flashcards" && selectedTopic && (
@@ -86,6 +94,10 @@ export default function B1GermanModule() {
 
       {screen === "studyplan" && (
         <StudyPlan onBack={handleBackToHome} />
+      )}
+
+      {screen === "cheatsheets" && (
+        <CheatSheets onBack={handleBackToHome} />
       )}
     </ModuleLayout>
   );

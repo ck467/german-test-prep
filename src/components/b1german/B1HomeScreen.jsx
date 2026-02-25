@@ -1,7 +1,7 @@
 import S from "../../styles.js";
 import { B1_TOPICS } from "../../data/b1Vocab.js";
 
-export default function B1HomeScreen({ onSelectTopic, onSelectExam, onSelectStudyPlan, exams = [] }) {
+export default function B1HomeScreen({ onSelectTopic, onSelectExam, onSelectStudyPlan, onSelectCheatSheets, exams = [] }) {
   const totalWords = B1_TOPICS.reduce((sum, t) => sum + t.cards.length, 0);
 
   return (
@@ -109,6 +109,55 @@ export default function B1HomeScreen({ onSelectTopic, onSelectExam, onSelectStud
                 </span>
                 <span style={{ ...S.tag, background: "rgba(232,113,43,0.1)", color: "#E8712B", borderColor: "rgba(232,113,43,0.2)" }}>
                   Daily Schedules
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Cheat Sheets Section */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
+          <span style={{ fontSize: 28 }}>{"\uD83D\uDCCB"}</span>
+          <h1 style={S.h1}>Exam Cheat Sheets</h1>
+        </div>
+        <p style={{ color: "#777", fontSize: 15, margin: 0, marginBottom: 20 }}>
+          Quick-reference strategies, templates & scoring for all 5 exam sections
+        </p>
+        <div
+          onClick={onSelectCheatSheets}
+          style={{
+            ...S.card({ padding: 28 }),
+            cursor: "pointer",
+            transition: "all 0.25s",
+            borderColor: "rgba(52,211,153,0.15)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "rgba(52,211,153,0.5)";
+            e.currentTarget.style.transform = "translateY(-3px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "rgba(52,211,153,0.15)";
+            e.currentTarget.style.transform = "";
+          }}
+        >
+          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            <div style={{ fontSize: 48 }}>{"\uD83D\uDCDD"}</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 700, color: "#F5F3EE", fontSize: 18, marginBottom: 6 }}>Exam Cheat Sheets</div>
+              <div style={{ color: "#888", fontSize: 13, marginBottom: 12 }}>
+                Quick-reference templates, tables & strategies for Schreiben, Sprachbausteine, Lesen, H{"\u00F6"}ren & Sprechen.
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ ...S.tag, background: "rgba(52,211,153,0.1)", color: "#34D399", borderColor: "rgba(52,211,153,0.2)" }}>
+                  5 Sections
+                </span>
+                <span style={{ ...S.tag, background: "rgba(52,211,153,0.1)", color: "#34D399", borderColor: "rgba(52,211,153,0.2)" }}>
+                  Templates
+                </span>
+                <span style={{ ...S.tag, background: "rgba(52,211,153,0.1)", color: "#34D399", borderColor: "rgba(52,211,153,0.2)" }}>
+                  Strategies
                 </span>
               </div>
             </div>
