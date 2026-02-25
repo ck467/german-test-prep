@@ -1,4 +1,4 @@
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import { B1_TOPICS } from "../../data/b1Vocab.js";
 
 const MODULE_CARDS = [
@@ -55,6 +55,7 @@ export default function B1HomeScreen({
   onSelectVocabulary,
   exams = [],
 }) {
+  const { S } = useStyles();
   const totalWords = B1_TOPICS.reduce((sum, t) => sum + t.cards.length, 0);
 
   const handlers = {
@@ -87,10 +88,10 @@ export default function B1HomeScreen({
             }}
           >
             <div style={{ fontSize: 36, marginBottom: 10 }}>{card.icon}</div>
-            <div style={{ fontWeight: 700, color: "#F5F3EE", fontSize: 17, marginBottom: 4 }}>
+            <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 17, marginBottom: 4 }}>
               {card.title}
             </div>
-            <div style={{ color: "#888", fontSize: 13, marginBottom: 12, lineHeight: 1.4 }}>
+            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 12, lineHeight: 1.4 }}>
               {card.subtitle}
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -117,7 +118,7 @@ export default function B1HomeScreen({
           marginTop: 20,
           padding: "12px 0",
           textAlign: "center",
-          color: "#666",
+          color: S.p.textMuted,
           fontSize: 13,
           letterSpacing: 0.3,
         }}

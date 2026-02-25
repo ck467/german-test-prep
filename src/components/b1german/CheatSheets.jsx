@@ -1,25 +1,9 @@
 import { useState } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
+import { getCS } from "../../palettes.js";
 import { B1_CHEAT_SHEETS } from "../../data/b1CheatSheets.js";
 
-const CS = {
-  green: "#34D399",
-  greenLight: "rgba(52,211,153,0.12)",
-  greenBorder: "rgba(52,211,153,0.3)",
-  greenSoft: "rgba(52,211,153,0.06)",
-  gray: "#23262F",
-  grayLight: "#1A1D27",
-  grayBorder: "rgba(255,255,255,0.1)",
-  white: "#F5F3EE",
-  muted: "#888",
-  accent: "#34D399",
-  tipBg: "rgba(52,211,153,0.08)",
-  tipBorder: "rgba(52,211,153,0.25)",
-  warnBg: "rgba(245,158,66,0.08)",
-  warnBorder: "rgba(245,158,66,0.25)",
-};
-
-function BlockHeading({ text }) {
+function BlockHeading({ text, CS }) {
   return (
     <h3 style={{
       fontFamily: "'Source Sans 3', sans-serif",
@@ -38,7 +22,7 @@ function BlockHeading({ text }) {
   );
 }
 
-function BlockTemplate({ title, lines }) {
+function BlockTemplate({ title, lines, CS }) {
   return (
     <div style={{
       background: CS.grayLight,
@@ -71,7 +55,7 @@ function BlockTemplate({ title, lines }) {
   );
 }
 
-function BlockTable({ headers, rows }) {
+function BlockTable({ headers, rows, CS }) {
   return (
     <div style={{ overflowX: "auto", marginBottom: 12 }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
@@ -105,7 +89,7 @@ function BlockTable({ headers, rows }) {
                   verticalAlign: "top",
                   lineHeight: 1.5,
                   color: CS.white,
-                  background: i % 2 === 1 ? "rgba(255,255,255,0.02)" : "transparent",
+                  background: i % 2 === 1 ? CS.stripeBg : "transparent",
                 }}>
                   {cell}
                 </td>
@@ -118,7 +102,7 @@ function BlockTable({ headers, rows }) {
   );
 }
 
-function BlockTip({ title, text }) {
+function BlockTip({ title, text, CS }) {
   return (
     <div style={{
       background: CS.tipBg,
@@ -136,7 +120,7 @@ function BlockTip({ title, text }) {
   );
 }
 
-function BlockList({ title, items }) {
+function BlockList({ title, items, CS }) {
   return (
     <div style={{
       background: CS.grayLight,
@@ -177,7 +161,7 @@ function BlockList({ title, items }) {
   );
 }
 
-function BlockPills({ items }) {
+function BlockPills({ items, CS }) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12 }}>
       {items.map((item, i) => (
@@ -196,7 +180,7 @@ function BlockPills({ items }) {
   );
 }
 
-function BlockScoring({ title, items }) {
+function BlockScoring({ title, items, CS }) {
   return (
     <div style={{
       background: CS.warnBg,
@@ -221,20 +205,22 @@ function BlockScoring({ title, items }) {
   );
 }
 
-function ContentBlock({ block }) {
+function ContentBlock({ block, CS }) {
   switch (block.type) {
-    case "heading": return <BlockHeading text={block.text} />;
-    case "template": return <BlockTemplate title={block.title} lines={block.lines} />;
-    case "table": return <BlockTable headers={block.headers} rows={block.rows} />;
-    case "tip": return <BlockTip title={block.title} text={block.text} />;
-    case "list": return <BlockList title={block.title} items={block.items} />;
-    case "pills": return <BlockPills items={block.items} />;
-    case "scoring": return <BlockScoring title={block.title} items={block.items} />;
+    case "heading": return <BlockHeading text={block.text} CS={CS} />;
+    case "template": return <BlockTemplate title={block.title} lines={block.lines} CS={CS} />;
+    case "table": return <BlockTable headers={block.headers} rows={block.rows} CS={CS} />;
+    case "tip": return <BlockTip title={block.title} text={block.text} CS={CS} />;
+    case "list": return <BlockList title={block.title} items={block.items} CS={CS} />;
+    case "pills": return <BlockPills items={block.items} CS={CS} />;
+    case "scoring": return <BlockScoring title={block.title} items={block.items} CS={CS} />;
     default: return null;
   }
 }
 
 export default function CheatSheets({ onBack }) {
+  const { S, theme } = useStyles();
+  const CS = getCS(theme);
   const [activeTab, setActiveTab] = useState(0);
   const section = B1_CHEAT_SHEETS[activeTab];
 
@@ -246,7 +232,7 @@ export default function CheatSheets({ onBack }) {
           <span style={{ fontSize: 28 }}>{"\uD83D\uDCCB"}</span>
           <h1 style={S.h1}>Exam Cheat Sheets</h1>
         </div>
-        <p style={{ color: "#777", fontSize: 15, margin: 0, marginBottom: 20 }}>
+        <p style={{ color: S.p.textMuted, fontSize: 15, margin: 0, marginBottom: 20 }}>
           Quick-reference strategies, templates & scoring for all 5 exam sections
         </p>
       </div>
@@ -283,7 +269,7 @@ export default function CheatSheets({ onBack }) {
       {/* Content */}
       <div>
         {section.content.map((block, i) => (
-          <ContentBlock key={`${section.id}-${i}`} block={block} />
+          <ContentBlock key={`${section.id}-${i}`} block={block} CS={CS} />
         ))}
       </div>
 

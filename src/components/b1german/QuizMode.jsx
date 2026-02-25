@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import ProgressBar from "../shared/ProgressBar.jsx";
 import ScoreBadge from "../shared/ScoreBadge.jsx";
 import { B1_TOPICS } from "../../data/b1Vocab.js";
@@ -14,11 +14,11 @@ function shuffle(arr) {
 }
 
 export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
+  const { S } = useStyles();
   const allCards = useMemo(() => B1_TOPICS.flatMap(t => t.cards), []);
 
   const questions = useMemo(() => {
     return topic.cards.map(card => {
-      // Get 3 wrong answers from other cards
       const wrongPool = allCards.filter(c => c.id !== card.id);
       const wrongOptions = shuffle(wrongPool).slice(0, 3).map(c => c.en);
       const options = shuffle([card.en, ...wrongOptions]);
@@ -61,11 +61,11 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
         <div style={{ textAlign: "center", padding: "60px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{pct >= 70 ? "🎉" : "📚"}</div>
           <h2 style={{ ...S.h1, marginBottom: 8 }}>Quiz Complete</h2>
-          <div style={{ color: "#777", marginBottom: 32 }}>{topic.icon} {topic.name}</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 32 }}>{topic.icon} {topic.name}</div>
           <div style={{ fontSize: 48, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: pct >= 70 ? "#10B981" : "#F59E0B", marginBottom: 8 }}>
             {score}/{questions.length}
           </div>
-          <div style={{ color: "#888", marginBottom: 40 }}>{pct}% correct</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 40 }}>{pct}% correct</div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
             <button onClick={onBack} style={S.btn("ghost")}>← Topics</button>
             <button onClick={onBackToFlashcards} style={S.btn("ghost")}>← Flashcards</button>
@@ -85,22 +85,22 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <button onClick={onBack} style={{ ...S.btn("ghost"), padding: "6px 12px" }}>← Back</button>
-        <div style={{ color: "#888", fontSize: 14 }}>{topic.icon} {topic.name} – Quiz</div>
+        <div style={{ color: S.p.textMuted, fontSize: 14 }}>{topic.icon} {topic.name} – Quiz</div>
         <ScoreBadge score={score} max={idx + (selected !== null ? 1 : 0)} />
       </div>
 
       {/* Progress */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span style={{ color: "#666", fontSize: 13 }}>Question {idx + 1} of {questions.length}</span>
+          <span style={{ color: S.p.textMuted, fontSize: 13 }}>Question {idx + 1} of {questions.length}</span>
         </div>
         <ProgressBar value={idx + 1} max={questions.length} />
       </div>
 
       {/* Question */}
       <div style={{ ...S.card(), marginBottom: 20, textAlign: "center" }}>
-        <div style={{ fontSize: 13, color: "#666", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>What does this mean?</div>
-        <div style={{ fontSize: 28, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#F5F3EE" }}>
+        <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>What does this mean?</div>
+        <div style={{ fontSize: 28, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: S.p.headingText }}>
           {q.de}
         </div>
       </div>
@@ -108,9 +108,9 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
       {/* Options */}
       <div style={{ display: "grid", gap: 10, marginBottom: 24 }}>
         {q.options.map((opt, i) => {
-          let border = "1px solid rgba(255,255,255,0.08)";
-          let bg = "#141720";
-          let color = "#ccc";
+          let border = `1px solid ${S.p.border08}`;
+          let bg = S.p.cardBg;
+          let color = S.p.ghostBtnText;
           if (selected !== null) {
             if (i === q.correctIdx) { border = "1px solid rgba(16,185,129,0.6)"; bg = "rgba(16,185,129,0.12)"; color = "#10B981"; }
             else if (i === selected && !isCorrect) { border = "1px solid rgba(239,68,68,0.6)"; bg = "rgba(239,68,68,0.12)"; color = "#EF4444"; }
@@ -139,11 +139,11 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
               {isCorrect ? "✓ Correct!" : "✗ Incorrect"}
             </div>
             {!isCorrect && (
-              <div style={{ color: "#aaa", fontSize: 14 }}>
+              <div style={{ color: S.p.textMuted, fontSize: 14 }}>
                 Correct: <span style={{ color: "#10B981", fontWeight: 600 }}>{q.en}</span>
               </div>
             )}
-            <div style={{ color: "#666", fontSize: 13, marginTop: 4, fontStyle: "italic" }}>{q.example}</div>
+            <div style={{ color: S.p.textMuted, fontSize: 13, marginTop: 4, fontStyle: "italic" }}>{q.example}</div>
           </div>
           <button onClick={handleNext} style={S.btn("primary")}>
             {idx + 1 >= questions.length ? "Finish →" : "Next →"}

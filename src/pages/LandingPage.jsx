@@ -1,20 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import S from "../styles.js";
+import useStyles from "../useStyles.js";
+import ThemeToggle from "../components/shared/ThemeToggle.jsx";
 import { MODULES } from "../data/modules.js";
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const { S } = useStyles();
 
   return (
     <div style={S.root}>
       <header style={S.header}>
         <div style={S.logo}>German Test Prep</div>
+        <ThemeToggle />
       </header>
 
       <div style={{ ...S.inner, maxWidth: 960 }}>
         <div style={{ textAlign: "center", marginBottom: 48, paddingTop: 20 }}>
           <h1 style={{ ...S.h1, fontSize: 40, marginBottom: 12 }}>German Test Prep</h1>
-          <p style={{ color: "#777", fontSize: 17, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
+          <p style={{ color: S.p.textMuted, fontSize: 17, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
             Everything you need to prepare for life in Germany. Choose your path below.
           </p>
         </div>
@@ -36,7 +39,7 @@ export default function LandingPage() {
             >
               <div style={{ fontSize: 56, marginBottom: 20 }}>{mod.icon}</div>
               <h2 style={{ ...S.h2, fontSize: 26, marginBottom: 12 }}>{mod.title}</h2>
-              <p style={{ color: "#888", fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
+              <p style={{ color: S.p.textMuted, fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
                 {mod.description}
               </p>
               <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
@@ -51,7 +54,7 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <div style={{ textAlign: "center", color: "#555", fontSize: 13 }}>
+        <div style={{ textAlign: "center", color: S.p.textMuted, fontSize: 13 }}>
           Free and open-source · No account needed · Practice at your own pace
         </div>
       </div>

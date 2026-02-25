@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import { GENERAL_QUESTIONS, STATE_QUESTIONS, STATES, shuffle } from "../../data/citizenshipQuestions.js";
 
 export default function ExamMode({ selectedState, onBack, onComplete }) {
+  const { S } = useStyles();
   const [phase, setPhase] = useState("intro");
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
@@ -57,7 +58,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
         <div style={{ textAlign: "center", padding: "40px 0" }}>
           <div style={{ fontSize: 56, marginBottom: 20 }}>⏱️</div>
           <h2 style={{ ...S.h1, marginBottom: 12 }}>Practice Exam</h2>
-          <p style={{ color: "#888", marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+          <p style={{ color: S.p.textMuted, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
             33 questions (30 general + 3 for {stateName}) · 60 minutes · At least 17 correct answers to pass
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
@@ -78,11 +79,11 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
         <div style={{ textAlign: "center", padding: "40px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{passed ? "🎓" : "📖"}</div>
           <h2 style={{ ...S.h1, marginBottom: 8 }}>{passed ? "Passed!" : "Not Passed"}</h2>
-          <div style={{ color: "#777", marginBottom: 32 }}>Passing score: 17 out of 33</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 32 }}>Passing score: 17 out of 33</div>
           <div style={{ fontSize: 56, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: passed ? "#10B981" : "#EF4444", marginBottom: 8 }}>
             {correct}/33
           </div>
-          <div style={{ color: "#888", marginBottom: 40 }}>{Math.round((correct / 33) * 100)}% correct</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 40 }}>{Math.round((correct / 33) * 100)}% correct</div>
 
           {/* Question review */}
           <div style={{ textAlign: "left", marginBottom: 32 }}>
@@ -99,12 +100,12 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                 const ans = answers[q.id];
                 const ok = ans === q.a;
                 return (
-                  <div key={q.id} style={{ background: "#141720", border: `1px solid ${ok ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"}`, borderRadius: 8, padding: "12px 16px" }}>
+                  <div key={q.id} style={{ background: S.p.cardBg, border: `1px solid ${ok ? "rgba(16,185,129,0.25)" : "rgba(239,68,68,0.25)"}`, borderRadius: 8, padding: "12px 16px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                       <span style={{ color: ok ? "#10B981" : "#EF4444", fontWeight: 700, marginTop: 1 }}>{ok ? "✓" : "✗"}</span>
                       <div style={{ flex: 1 }}>
-                        <div style={{ color: "#ddd", fontSize: 14, marginBottom: 4 }}>
-                          <span style={{ color: "#666", fontSize: 12, marginRight: 6 }}>Q{i + 1}</span>
+                        <div style={{ color: S.p.bodyText, fontSize: 14, marginBottom: 4 }}>
+                          <span style={{ color: S.p.textMuted, fontSize: 12, marginRight: 6 }}>Q{i + 1}</span>
                           {q.q.length > 80 ? q.q.slice(0, 80) + "…" : q.q}
                         </div>
                         {showTranslations && q.eq && (
@@ -113,7 +114,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                           </div>
                         )}
                         {!ok && (
-                          <div style={{ fontSize: 13, color: "#888" }}>
+                          <div style={{ fontSize: 13, color: S.p.textMuted }}>
                             Your answer: <span style={{ color: "#EF4444" }}>{ans !== undefined ? q.opts[ans] : "—"}</span>
                             {" · "}Correct: <span style={{ color: "#10B981" }}>{q.opts[q.a]}</span>
                             {showTranslations && q.eopts && (
@@ -145,10 +146,10 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
   return (
     <div style={S.root}>
       {/* Sticky exam header */}
-      <div style={{ position: "sticky", top: 0, zIndex: 50, background: "#0B0D14", borderBottom: "1px solid rgba(255,255,255,0.08)", padding: "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 50, background: S.p.rootBg, borderBottom: `1px solid ${S.p.border08}`, padding: "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ color: "#888", fontSize: 13 }}>Practice Exam · {stateName}</span>
-          <span style={{ background: "rgba(255,255,255,0.06)", borderRadius: 6, padding: "4px 10px", fontSize: 13 }}>{answered}/33 answered</span>
+          <span style={{ color: S.p.textMuted, fontSize: 13 }}>Practice Exam · {stateName}</span>
+          <span style={{ background: S.p.ghostBtnBg, borderRadius: 6, padding: "4px 10px", fontSize: 13 }}>{answered}/33 answered</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span style={{ fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: timerColor }}>{formatTime(timeLeft)}</span>
@@ -161,16 +162,16 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
           const ans = answers[q.id];
           const isState = i >= 30;
           return (
-            <div key={q.id} style={{ ...S.card(), marginBottom: 16, borderColor: isState ? "rgba(245,200,66,0.2)" : "rgba(255,255,255,0.08)" }}>
+            <div key={q.id} style={{ ...S.card(), marginBottom: 16, borderColor: isState ? "rgba(245,200,66,0.2)" : S.p.border08 }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
-                <span style={{ background: isState ? "rgba(245,200,66,0.15)" : "rgba(255,255,255,0.07)", color: isState ? "#F5C842" : "#888", borderRadius: 6, padding: "2px 8px", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                <span style={{ background: isState ? "rgba(245,200,66,0.15)" : S.p.ghostBtnBg07, color: isState ? "#F5C842" : S.p.textMuted, borderRadius: 6, padding: "2px 8px", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
                   {i + 1}{isState ? " 🏛️ State" : ""}
                 </span>
                 <div>
-                  <div style={{ color: "#F5F3EE", fontSize: 16, lineHeight: 1.6 }}>{q.q}</div>
+                  <div style={{ color: S.p.headingText, fontSize: 16, lineHeight: 1.6 }}>{q.q}</div>
                   {q.img && (
                     <div style={{ marginTop: 10 }}>
-                      <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)" }} />
+                      <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
                     </div>
                   )}
                 </div>
@@ -181,14 +182,14 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                     key={oi}
                     onClick={() => setAnswers(prev => ({ ...prev, [q.id]: oi }))}
                     style={{
-                      background: ans === oi ? "rgba(245,200,66,0.12)" : "rgba(255,255,255,0.03)",
-                      border: `1px solid ${ans === oi ? "rgba(245,200,66,0.5)" : "rgba(255,255,255,0.08)"}`,
+                      background: ans === oi ? "rgba(245,200,66,0.12)" : S.p.stripeBg,
+                      border: `1px solid ${ans === oi ? "rgba(245,200,66,0.5)" : S.p.border08}`,
                       borderRadius: 8, padding: q.optImgs ? "10px" : "11px 16px", cursor: "pointer", textAlign: q.optImgs ? "center" : "left",
-                      color: ans === oi ? "#F5C842" : "#aaa", fontSize: 14, transition: "all 0.12s",
+                      color: ans === oi ? "#F5C842" : S.p.textMuted, fontSize: 14, transition: "all 0.12s",
                       display: "flex", flexDirection: q.optImgs ? "column" : "row", alignItems: "center", gap: q.optImgs ? 6 : 10
                     }}
                   >
-                    <span style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${ans === oi ? "#F5C842" : "rgba(255,255,255,0.15)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${ans === oi ? "#F5C842" : S.p.border15}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                       {ans === oi && <span style={{ width: 10, height: 10, borderRadius: 5, background: "#F5C842", display: "block" }} />}
                     </span>
                     {q.optImgs?.[oi] && <img src={q.optImgs[oi]} alt="" style={{ maxWidth: "100%", maxHeight: 100, borderRadius: 6 }} />}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import { GENERAL_QUESTIONS, STATE_QUESTIONS, STATES } from "../../data/citizenshipQuestions.js";
 import ModuleLayout from "../shared/ModuleLayout.jsx";
 import HomeScreen from "./HomeScreen.jsx";
@@ -7,6 +7,7 @@ import PracticeMode from "./PracticeMode.jsx";
 import ExamMode from "./ExamMode.jsx";
 
 export default function CitizenshipModule() {
+  const { S } = useStyles();
   const [mode, setMode] = useState("home");
   const [selectedState, setSelectedState] = useState("BE");
   const [stats, setStats] = useState({ general: null, state: {}, exam: null });

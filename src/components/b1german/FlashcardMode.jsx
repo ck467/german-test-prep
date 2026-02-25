@@ -1,8 +1,9 @@
 import { useState } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import ProgressBar from "../shared/ProgressBar.jsx";
 
 export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
+  const { S } = useStyles();
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useState({});
@@ -54,7 +55,7 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <button onClick={onBack} style={{ ...S.btn("ghost"), padding: "6px 12px" }}>← Back</button>
-        <div style={{ color: "#888", fontSize: 14 }}>{topic.icon} {topic.name}</div>
+        <div style={{ color: S.p.textMuted, fontSize: 14 }}>{topic.icon} {topic.name}</div>
         <div style={{ display: "flex", gap: 8 }}>
           <span style={{ background: "rgba(16,185,129,0.15)", color: "#10B981", borderRadius: 6, padding: "2px 10px", fontSize: 13, fontWeight: 600 }}>
             {knownCount} known
@@ -68,7 +69,7 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
       {/* Progress */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span style={{ color: "#666", fontSize: 13 }}>Card {idx + 1} of {cards.length}</span>
+          <span style={{ color: S.p.textMuted, fontSize: 13 }}>Card {idx + 1} of {cards.length}</span>
         </div>
         <ProgressBar value={idx + 1} max={cards.length} />
       </div>
@@ -104,11 +105,11 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
             boxSizing: "border-box",
             borderColor: "rgba(245,200,66,0.3)",
           }}>
-            <div style={{ fontSize: 13, color: "#666", marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>German</div>
-            <div style={{ fontSize: 32, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#F5F3EE", textAlign: "center" }}>
+            <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>German</div>
+            <div style={{ fontSize: 32, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: S.p.headingText, textAlign: "center" }}>
               {card.de}
             </div>
-            <div style={{ fontSize: 13, color: "#555", marginTop: 20 }}>Tap to flip</div>
+            <div style={{ fontSize: 13, color: S.p.textMuted, marginTop: 20 }}>Tap to flip</div>
           </div>
 
           {/* Back */}
@@ -126,13 +127,13 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
             boxSizing: "border-box",
             borderColor: "rgba(96,165,250,0.3)",
           }}>
-            <div style={{ fontSize: 13, color: "#666", marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>English</div>
+            <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>English</div>
             <div style={{ fontSize: 28, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#60A5FA", textAlign: "center", marginBottom: 16 }}>
               {card.en}
             </div>
-            <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 8, padding: "10px 16px", maxWidth: 400 }}>
-              <div style={{ fontSize: 13, color: "#666", marginBottom: 4 }}>Example:</div>
-              <div style={{ fontSize: 15, color: "#aaa", fontStyle: "italic", lineHeight: 1.5 }}>{card.example}</div>
+            <div style={{ background: S.p.exampleBg, borderRadius: 8, padding: "10px 16px", maxWidth: 400 }}>
+              <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 4 }}>Example:</div>
+              <div style={{ fontSize: 15, color: S.p.textMuted, fontStyle: "italic", lineHeight: 1.5 }}>{card.example}</div>
             </div>
           </div>
         </div>

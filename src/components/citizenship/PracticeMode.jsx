@@ -1,9 +1,10 @@
 import { useState } from "react";
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import ProgressBar from "../shared/ProgressBar.jsx";
 import ScoreBadge from "../shared/ScoreBadge.jsx";
 
 export default function PracticeMode({ questions, title, onBack, onComplete }) {
+  const { S } = useStyles();
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
@@ -56,11 +57,11 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
         <div style={{ textAlign: "center", padding: "60px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{pct >= 60 ? "🎉" : "📚"}</div>
           <h2 style={{ ...S.h1, marginBottom: 8 }}>Session Complete</h2>
-          <div style={{ color: "#777", marginBottom: 32 }}>{title}</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 32 }}>{title}</div>
           <div style={{ fontSize: 48, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: pct >= 60 ? "#10B981" : "#EF4444", marginBottom: 8 }}>
             {finalScore}/{total}
           </div>
-          <div style={{ color: "#888", marginBottom: 40 }}>{pct}% correct</div>
+          <div style={{ color: S.p.textMuted, marginBottom: 40 }}>{pct}% correct</div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
             <button onClick={onBack} style={S.btn("ghost")}>← Back</button>
             <button onClick={() => { setIdx(0); setSelected(null); setShowResult(false); setScore(0); setFinished(false); }} style={S.btn("primary")}>
@@ -79,7 +80,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <button onClick={onBack} style={{ ...S.btn("ghost"), padding: "6px 12px" }}>← Back</button>
-        <div style={{ color: "#888", fontSize: 14 }}>{title}</div>
+        <div style={{ color: S.p.textMuted, fontSize: 14 }}>{title}</div>
         <ScoreBadge score={score} max={idx + (selected !== null ? 1 : 0)} />
       </div>
 
@@ -96,18 +97,18 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
       {/* Progress */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span style={{ color: "#666", fontSize: 13 }}>Question {idx + 1} of {filtered.length}</span>
-          <span style={{ color: "#666", fontSize: 13 }}>Q#{q.id}</span>
+          <span style={{ color: S.p.textMuted, fontSize: 13 }}>Question {idx + 1} of {filtered.length}</span>
+          <span style={{ color: S.p.textMuted, fontSize: 13 }}>Q#{q.id}</span>
         </div>
         <ProgressBar value={idx + 1} max={filtered.length} />
       </div>
 
       {/* Question */}
       <div style={{ ...S.card(), marginBottom: 20 }}>
-        <div style={{ fontSize: 17, color: "#F5F3EE", lineHeight: 1.6, fontWeight: 500 }}>{q.q}</div>
+        <div style={{ fontSize: 17, color: S.p.headingText, lineHeight: 1.6, fontWeight: 500 }}>{q.q}</div>
         {q.img && (
           <div style={{ marginTop: 14 }}>
-            <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)" }} />
+            <img src={q.img} alt="" style={{ maxWidth: "100%", maxHeight: 280, borderRadius: 8, border: `1px solid ${S.p.border08}` }} />
           </div>
         )}
       </div>
@@ -115,9 +116,9 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
       {/* Options */}
       <div style={{ display: "grid", gap: 10, marginBottom: 24, ...(q.optImgs ? { gridTemplateColumns: "1fr 1fr" } : {}) }}>
         {q.opts.map((opt, i) => {
-          let border = "1px solid rgba(255,255,255,0.08)";
-          let bg = "#141720";
-          let color = "#ccc";
+          let border = `1px solid ${S.p.border08}`;
+          let bg = S.p.cardBg;
+          let color = S.p.ghostBtnText;
           if (selected !== null) {
             if (i === q.a) { border = "1px solid rgba(16,185,129,0.6)"; bg = "rgba(16,185,129,0.12)"; color = "#10B981"; }
             else if (i === selected && !isCorrect) { border = "1px solid rgba(239,68,68,0.6)"; bg = "rgba(239,68,68,0.12)"; color = "#EF4444"; }
@@ -150,7 +151,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
                 {isCorrect ? "✓ Correct!" : "✗ Incorrect"}
               </div>
               {!isCorrect && (
-                <div style={{ color: "#aaa", fontSize: 14 }}>
+                <div style={{ color: S.p.textMuted, fontSize: 14 }}>
                   Correct answer: <span style={{ color: "#10B981", fontWeight: 600 }}>{q.opts[q.a]}</span>
                 </div>
               )}
@@ -180,14 +181,14 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
               <div style={{ display: "grid", gap: 6 }}>
                 {q.eopts.map((opt, i) => (
                   <div key={i} style={{
-                    background: i === q.a ? "rgba(16,185,129,0.12)" : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${i === q.a ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.07)"}`,
+                    background: i === q.a ? "rgba(16,185,129,0.12)" : S.p.stripeBg,
+                    border: `1px solid ${i === q.a ? "rgba(16,185,129,0.4)" : S.p.border07}`,
                     borderRadius: 8, padding: "9px 14px", display: "flex", alignItems: "center", gap: 10
                   }}>
-                    <span style={{ width: 22, height: 22, borderRadius: 6, border: `1px solid ${i === q.a ? "rgba(16,185,129,0.5)" : "rgba(255,255,255,0.15)"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, color: i === q.a ? "#10B981" : "#666" }}>
+                    <span style={{ width: 22, height: 22, borderRadius: 6, border: `1px solid ${i === q.a ? "rgba(16,185,129,0.5)" : S.p.border15}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, color: i === q.a ? "#10B981" : S.p.textMuted }}>
                       {i === q.a ? "✓" : String.fromCharCode(65 + i)}
                     </span>
-                    <span style={{ fontSize: 14, color: i === q.a ? "#10B981" : "#888" }}>{opt}</span>
+                    <span style={{ fontSize: 14, color: i === q.a ? "#10B981" : S.p.textMuted }}>{opt}</span>
                   </div>
                 ))}
               </div>

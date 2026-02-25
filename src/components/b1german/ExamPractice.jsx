@@ -1,22 +1,9 @@
 import { useState } from "react";
-import S from "../../styles.js";
-
-// ── Goethe exam palette (dark-theme adaptation) ──
-const EX = {
-  orange: "#E8712B",
-  orangeLight: "rgba(232,113,43,0.12)",
-  orangeBorder: "rgba(232,113,43,0.3)",
-  gray: "#23262F",
-  grayLight: "#1A1D27",
-  grayBorder: "rgba(255,255,255,0.1)",
-  white: "#F5F3EE",
-  muted: "#888",
-  passageBg: "#101218",
-  passageBorder: "rgba(255,255,255,0.08)",
-};
+import useStyles from "../../useStyles.js";
+import { getEX } from "../../palettes.js";
 
 // ── Exam header bar (mimics the ZERTIFIKAT B1 | LESEN bar) ──
-function ExamHeader({ source, sectionTitle }) {
+function ExamHeader({ source, sectionTitle, EX }) {
   const isGoethe = source === "goethe";
   const accent = isGoethe ? EX.orange : "#A855F7";
   return (
@@ -57,7 +44,7 @@ function ExamHeader({ source, sectionTitle }) {
 }
 
 // ── Teil header (e.g. "Teil 1   Arbeitszeit: 10 Minuten") ──
-function TeilHeader({ title, timeMinutes, instructions, context, topic }) {
+function TeilHeader({ title, timeMinutes, instructions, context, topic, EX }) {
   return (
     <div style={{
       background: EX.grayLight,
@@ -84,17 +71,17 @@ function TeilHeader({ title, timeMinutes, instructions, context, topic }) {
         )}
       </div>
       {instructions && (
-        <p style={{ color: "#999", fontSize: 13, lineHeight: 1.6, margin: 0, marginBottom: context || topic ? 12 : 0 }}>{instructions}</p>
+        <p style={{ color: EX.subtleText, fontSize: 13, lineHeight: 1.6, margin: 0, marginBottom: context || topic ? 12 : 0 }}>{instructions}</p>
       )}
       {(context || topic) && (
-        <p style={{ color: "#BBB", fontSize: 14, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>{context || topic}</p>
+        <p style={{ color: EX.softText, fontSize: 14, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>{context || topic}</p>
       )}
     </div>
   );
 }
 
 // ── Passage box (blog, newspaper article, Hausordnung, letter) ──
-function PassageBox({ children, title, subtitle, source: src, variant }) {
+function PassageBox({ children, title, subtitle, source: src, variant, EX }) {
   const isBlog = variant === "blog";
   const isNewspaper = variant === "newspaper";
   const isDocument = variant === "document";
@@ -120,7 +107,7 @@ function PassageBox({ children, title, subtitle, source: src, variant }) {
           <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 20, fontWeight: 700, color: "#F5C842", letterSpacing: 0.5 }}>
             {title}
           </div>
-          {subtitle && <div style={{ fontSize: 12, color: "#999", fontStyle: "italic", marginTop: 2 }}>{subtitle}</div>}
+          {subtitle && <div style={{ fontSize: 12, color: EX.subtleText, fontStyle: "italic", marginTop: 2 }}>{subtitle}</div>}
         </div>
       )}
       {/* Newspaper-style header */}
@@ -129,7 +116,7 @@ function PassageBox({ children, title, subtitle, source: src, variant }) {
           <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 22, fontWeight: 700, color: EX.white, margin: 0, lineHeight: 1.3 }}>
             {title}
           </h3>
-          {subtitle && <p style={{ color: "#999", fontSize: 13, margin: "4px 0 0", fontStyle: "italic" }}>{subtitle}</p>}
+          {subtitle && <p style={{ color: EX.subtleText, fontSize: 13, margin: "4px 0 0", fontStyle: "italic" }}>{subtitle}</p>}
         </div>
       )}
       {/* Document-style header */}
@@ -147,20 +134,20 @@ function PassageBox({ children, title, subtitle, source: src, variant }) {
       {/* Letter header */}
       {isLetter && title && (
         <div style={{ padding: "16px 24px 0" }}>
-          <div style={{ fontStyle: "italic", color: "#999", fontSize: 13 }}>{title}</div>
+          <div style={{ fontStyle: "italic", color: EX.subtleText, fontSize: 13 }}>{title}</div>
         </div>
       )}
       {/* Body */}
       <div style={{ padding: "16px 24px 20px" }}>
         {children}
-        {src && <p style={{ color: "#555", fontSize: 11, marginTop: 12, marginBottom: 0, fontStyle: "italic", textAlign: "right" }}>{src}</p>}
+        {src && <p style={{ color: EX.muted, fontSize: 11, marginTop: 12, marginBottom: 0, fontStyle: "italic", textAlign: "right" }}>{src}</p>}
       </div>
     </div>
   );
 }
 
 // ── Answer feedback styling ──
-function feedbackBorder(isCorrect, isWrong, submitted) {
+function feedbackBorder(isCorrect, isWrong, submitted, EX) {
   if (!submitted) return EX.grayBorder;
   if (isCorrect) return "rgba(34,197,94,0.4)";
   if (isWrong) return "rgba(239,68,68,0.4)";
@@ -168,7 +155,7 @@ function feedbackBorder(isCorrect, isWrong, submitted) {
 }
 
 // ── Answer option button ──
-const optBtn = (selected, correct, submitted) => ({
+const optBtn = (selected, correct, submitted, EX) => ({
   padding: "7px 16px",
   borderRadius: 5,
   border: "1.5px solid",
@@ -178,20 +165,20 @@ const optBtn = (selected, correct, submitted) => ({
   textAlign: "left",
   transition: "all 0.15s",
   background: submitted
-    ? correct ? "rgba(34,197,94,0.1)" : selected ? "rgba(239,68,68,0.1)" : "rgba(255,255,255,0.02)"
-    : selected ? EX.orangeLight : "rgba(255,255,255,0.02)",
+    ? correct ? "rgba(34,197,94,0.1)" : selected ? "rgba(239,68,68,0.1)" : EX.ghostBg
+    : selected ? EX.orangeLight : EX.ghostBg,
   borderColor: submitted
-    ? correct ? "rgba(34,197,94,0.5)" : selected ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.08)"
-    : selected ? EX.orangeBorder : "rgba(255,255,255,0.08)",
+    ? correct ? "rgba(34,197,94,0.5)" : selected ? "rgba(239,68,68,0.5)" : EX.ghostBorder
+    : selected ? EX.orangeBorder : EX.ghostBorder,
   color: submitted
-    ? correct ? "#22C55E" : selected ? "#EF4444" : "#bbb"
-    : selected ? EX.orange : "#bbb",
+    ? correct ? "#22C55E" : selected ? "#EF4444" : EX.softText
+    : selected ? EX.orange : EX.softText,
   fontWeight: selected || correct ? 600 : 400,
 });
 
 // ── Richtig/Falsch button (exam-style rectangular) ──
-const rfBtn = (selected, correct, submitted) => ({
-  ...optBtn(selected, correct, submitted),
+const rfBtn = (selected, correct, submitted, EX) => ({
+  ...optBtn(selected, correct, submitted, EX),
   minWidth: 80,
   textAlign: "center",
   fontWeight: 600,
@@ -214,6 +201,8 @@ const adAccents = [
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════
 export default function ExamPractice({ exam, onBack }) {
+  const { S, theme } = useStyles();
+  const EX = getEX(theme);
   const [sectionIdx, setSectionIdx] = useState(null);
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -252,7 +241,7 @@ export default function ExamPractice({ exam, onBack }) {
           borderRadius: 12,
           overflow: "hidden",
           marginBottom: 32,
-          border: `1px solid rgba(255,255,255,0.06)`,
+          border: `1px solid ${EX.grayBorder}`,
         }}>
           {/* Orange/purple accent band */}
           <div style={{ height: 4, background: accent }} />
@@ -273,7 +262,7 @@ export default function ExamPractice({ exam, onBack }) {
             <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 26, fontWeight: 700, color: EX.white, margin: "0 0 6px" }}>
               {exam.title}
             </h1>
-            <p style={{ color: "#999", fontSize: 14, margin: 0, marginBottom: 16 }}>{exam.subtitle}</p>
+            <p style={{ color: EX.subtleText, fontSize: 14, margin: 0, marginBottom: 16 }}>{exam.subtitle}</p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <span style={{ ...S.tag, background: accentLight, color: accent, borderColor: accentBorder }}>{exam.totalItems} Questions</span>
               <span style={{ ...S.tag, background: accentLight, color: accent, borderColor: accentBorder }}>{exam.timeMinutes} min</span>
@@ -283,7 +272,7 @@ export default function ExamPractice({ exam, onBack }) {
         </div>
 
         {/* Section cards — mimics the Inhalt/table of contents */}
-        <div style={{ fontWeight: 600, color: "#777", fontSize: 12, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12, paddingLeft: 4 }}>
+        <div style={{ fontWeight: 600, color: EX.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 12, paddingLeft: 4 }}>
           Kandidatenblätter — Lesen
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -324,7 +313,7 @@ export default function ExamPractice({ exam, onBack }) {
                   </span>
                   <div>
                     <div style={{ fontWeight: 700, color: EX.white, fontSize: 15 }}>{sec.title}</div>
-                    <div style={{ color: "#777", fontSize: 12, marginTop: 2 }}>
+                    <div style={{ color: EX.muted, fontSize: 12, marginTop: 2 }}>
                       {sec.type === "trueFalse" && "Richtig / Falsch"}
                       {sec.type === "multipleChoice" && "Multiple Choice (a / b / c)"}
                       {sec.type === "matching" && "Zuordnung"}
@@ -359,7 +348,7 @@ export default function ExamPractice({ exam, onBack }) {
         <button onClick={handleBackToSections} style={{ ...S.btn(), fontSize: 13 }}>← Sections</button>
         <div style={{ flex: 1 }} />
         {!submitted && (
-          <span style={{ color: "#666", fontSize: 13 }}>{answeredCount} / {questions.length}</span>
+          <span style={{ color: EX.muted, fontSize: 13 }}>{answeredCount} / {questions.length}</span>
         )}
         {submitted && (
           <span style={{
@@ -373,7 +362,7 @@ export default function ExamPractice({ exam, onBack }) {
       </div>
 
       {/* Exam header bar */}
-      <ExamHeader source={exam.source} sectionTitle={section.title.split("–")[0]?.trim()} />
+      <ExamHeader source={exam.source} sectionTitle={section.title.split("–")[0]?.trim()} EX={EX} />
 
       {/* Teil header */}
       <TeilHeader
@@ -382,15 +371,16 @@ export default function ExamPractice({ exam, onBack }) {
         instructions={section.instructions}
         context={section.context}
         topic={section.type === "opinion" ? section.topic : null}
+        EX={EX}
       />
 
       {/* Render by type */}
-      {section.type === "trueFalse" && renderTrueFalse(section, answers, setAnswer, submitted)}
-      {section.type === "multipleChoice" && renderMC(section, answers, setAnswer, submitted)}
-      {section.type === "matching" && renderMatching(section, answers, setAnswer, submitted)}
-      {section.type === "opinion" && renderOpinion(section, answers, setAnswer, submitted)}
-      {section.type === "cloze" && renderCloze(section, answers, setAnswer, submitted)}
-      {section.type === "wordBankCloze" && renderWordBank(section, answers, setAnswer, submitted)}
+      {section.type === "trueFalse" && renderTrueFalse(section, answers, setAnswer, submitted, EX)}
+      {section.type === "multipleChoice" && renderMC(section, answers, setAnswer, submitted, EX)}
+      {section.type === "matching" && renderMatching(section, answers, setAnswer, submitted, EX)}
+      {section.type === "opinion" && renderOpinion(section, answers, setAnswer, submitted, EX)}
+      {section.type === "cloze" && renderCloze(section, answers, setAnswer, submitted, EX)}
+      {section.type === "wordBankCloze" && renderWordBank(section, answers, setAnswer, submitted, EX)}
 
       {/* Submit / Reset */}
       <div style={{ marginTop: 32, display: "flex", gap: 12 }}>
@@ -419,8 +409,7 @@ export default function ExamPractice({ exam, onBack }) {
 // ═══════════════════════════════════════════════════════
 
 // ── True/False (Richtig/Falsch) — exam table layout ──
-function renderTrueFalse(section, answers, setAnswer, submitted) {
-  // Extract blog title from passage if it looks like a blog
+function renderTrueFalse(section, answers, setAnswer, submitted, EX) {
   let blogTitle = null;
   let blogSubtitle = null;
   let passageBody = section.passage || "";
@@ -438,8 +427,8 @@ function renderTrueFalse(section, answers, setAnswer, submitted) {
   return (
     <>
       {section.passage && (
-        <PassageBox variant={blogTitle ? "blog" : undefined} title={blogTitle} subtitle={blogSubtitle}>
-          <p style={{ color: "#C8C6BE", fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line" }}>{passageBody}</p>
+        <PassageBox variant={blogTitle ? "blog" : undefined} title={blogTitle} subtitle={blogSubtitle} EX={EX}>
+          <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line" }}>{passageBody}</p>
         </PassageBox>
       )}
 
@@ -455,8 +444,8 @@ function renderTrueFalse(section, answers, setAnswer, submitted) {
               gap: 16,
               padding: "14px 16px",
               borderBottom: `1px solid ${EX.grayBorder}`,
-              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
-              background: qi % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
+              background: qi % 2 === 0 ? EX.stripeBg : "transparent",
               transition: "all 0.2s",
             }}>
               <span style={{ fontWeight: 700, color: EX.orange, fontSize: 16, minWidth: 24 }}>{q.id}</span>
@@ -466,7 +455,7 @@ function renderTrueFalse(section, answers, setAnswer, submitted) {
                   <button
                     key={val}
                     onClick={() => setAnswer(q.id, val)}
-                    style={rfBtn(answers[q.id] === val, submitted && q.answer === val, submitted)}
+                    style={rfBtn(answers[q.id] === val, submitted && q.answer === val, submitted, EX)}
                   >
                     {val === "richtig" ? "Richtig" : "Falsch"}
                   </button>
@@ -482,7 +471,7 @@ function renderTrueFalse(section, answers, setAnswer, submitted) {
 
 
 // ── Multiple Choice — newspaper article + questions ──
-function renderMC(section, answers, setAnswer, submitted) {
+function renderMC(section, answers, setAnswer, submitted, EX) {
   return (
     <>
       {(section.articles || []).map((article, ai) => (
@@ -493,8 +482,9 @@ function renderMC(section, answers, setAnswer, submitted) {
               title={article.title}
               subtitle={article.subtitle}
               source={article.source}
+              EX={EX}
             >
-              <p style={{ color: "#C8C6BE", fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line", columnCount: article.passage.length > 600 ? 2 : 1, columnGap: 28 }}>
+              <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line", columnCount: article.passage.length > 600 ? 2 : 1, columnGap: 28 }}>
                 {article.passage}
               </p>
             </PassageBox>
@@ -507,7 +497,7 @@ function renderMC(section, answers, setAnswer, submitted) {
             return (
               <div key={q.id} style={{
                 background: EX.grayLight,
-                border: `1px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
+                border: `1px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
                 borderRadius: 8,
                 padding: "16px 20px",
                 marginBottom: 10,
@@ -522,7 +512,7 @@ function renderMC(section, answers, setAnswer, submitted) {
                     <button
                       key={opt.label}
                       onClick={() => setAnswer(q.id, opt.label)}
-                      style={optBtn(answers[q.id] === opt.label, submitted && q.answer === opt.label, submitted)}
+                      style={optBtn(answers[q.id] === opt.label, submitted && q.answer === opt.label, submitted, EX)}
                     >
                       <span style={{ fontWeight: 700, marginRight: 6 }}>{opt.label})</span> {opt.text}
                     </button>
@@ -546,7 +536,7 @@ function parseAdText(text) {
   return { heading: "", body: text };
 }
 
-function renderMatching(section, answers, setAnswer, submitted) {
+function renderMatching(section, answers, setAnswer, submitted, EX) {
   const optionLabels = section.options.map((o) => o.label);
   const noMatch = section.noMatchLabel || "0";
   const allLabels = [...optionLabels, noMatch].filter((v, i, a) => a.indexOf(v) === i);
@@ -588,7 +578,7 @@ function renderMatching(section, answers, setAnswer, submitted) {
                     {heading}
                   </div>
                 )}
-                <div style={{ color: "#999", fontSize: 13, lineHeight: 1.6, marginTop: heading ? 0 : 6 }}>
+                <div style={{ color: EX.subtleText, fontSize: 13, lineHeight: 1.6, marginTop: heading ? 0 : 6 }}>
                   {body || opt.text}
                 </div>
               </div>
@@ -596,8 +586,8 @@ function renderMatching(section, answers, setAnswer, submitted) {
           })}
           {/* No-match card */}
           <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1.5px dashed rgba(255,255,255,0.12)",
+            background: EX.noMatchBg,
+            border: `1.5px dashed ${EX.noMatchBorder}`,
             borderRadius: 8,
             padding: "20px 18px 16px",
             position: "relative",
@@ -611,7 +601,7 @@ function renderMatching(section, answers, setAnswer, submitted) {
               width: 26, height: 26, borderRadius: "50%",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>{noMatch}</div>
-            <span style={{ color: "#555", fontSize: 13, fontStyle: "italic" }}>Keine passende Anzeige</span>
+            <span style={{ color: EX.muted, fontSize: 13, fontStyle: "italic" }}>Keine passende Anzeige</span>
           </div>
         </div>
       ) : (
@@ -627,7 +617,7 @@ function renderMatching(section, answers, setAnswer, submitted) {
             {section.options.map((opt, i) => {
               const accent = adAccents[i % adAccents.length];
               return (
-                <div key={opt.label} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "#C8C6BE", lineHeight: 1.5 }}>
+                <div key={opt.label} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: EX.passageText, lineHeight: 1.5 }}>
                   <span style={{
                     background: accent.label, color: "#1A1B2E",
                     fontWeight: 800, fontSize: 12,
@@ -652,8 +642,8 @@ function renderMatching(section, answers, setAnswer, submitted) {
             <div key={q.id} style={{
               padding: "14px 16px",
               borderBottom: `1px solid ${EX.grayBorder}`,
-              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
-              background: qi % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
+              background: qi % 2 === 0 ? EX.stripeBg : "transparent",
             }}>
               <div style={{ fontWeight: 600, marginBottom: 10, color: EX.white, fontSize: 14, lineHeight: 1.6 }}>
                 <span style={{ color: EX.orange, fontWeight: 700, marginRight: 8 }}>{q.id}</span>
@@ -674,14 +664,14 @@ function renderMatching(section, answers, setAnswer, submitted) {
                         fontWeight: 700, borderRadius: 4, border: "1.5px solid", cursor: submitted ? "default" : "pointer",
                         transition: "all 0.15s",
                         background: submitted
-                          ? isAnswer ? "rgba(34,197,94,0.1)" : isSelected ? "rgba(239,68,68,0.1)" : "rgba(255,255,255,0.02)"
-                          : isSelected ? (accent ? accent.bg : EX.orangeLight) : "rgba(255,255,255,0.02)",
+                          ? isAnswer ? "rgba(34,197,94,0.1)" : isSelected ? "rgba(239,68,68,0.1)" : EX.ghostBg
+                          : isSelected ? (accent ? accent.bg : EX.orangeLight) : EX.ghostBg,
                         borderColor: submitted
-                          ? isAnswer ? "rgba(34,197,94,0.5)" : isSelected ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.08)"
-                          : isSelected ? (accent ? accent.border : EX.orangeBorder) : (accent ? accent.border : "rgba(255,255,255,0.08)"),
+                          ? isAnswer ? "rgba(34,197,94,0.5)" : isSelected ? "rgba(239,68,68,0.5)" : EX.ghostBorder
+                          : isSelected ? (accent ? accent.border : EX.orangeBorder) : (accent ? accent.border : EX.ghostBorder),
                         color: submitted
-                          ? isAnswer ? "#22C55E" : isSelected ? "#EF4444" : "#777"
-                          : isSelected ? (accent ? accent.label : EX.orange) : (accent ? accent.label : "#777"),
+                          ? isAnswer ? "#22C55E" : isSelected ? "#EF4444" : EX.muted
+                          : isSelected ? (accent ? accent.label : EX.orange) : (accent ? accent.label : EX.muted),
                       }}
                     >
                       {label}
@@ -702,7 +692,7 @@ function renderMatching(section, answers, setAnswer, submitted) {
 
 
 // ── Opinion (Ja/Nein) — Leserbriefe newspaper style ──
-function renderOpinion(section, answers, setAnswer, submitted) {
+function renderOpinion(section, answers, setAnswer, submitted, EX) {
   return (
     <>
       {/* LESERBRIEFE newspaper header */}
@@ -710,8 +700,8 @@ function renderOpinion(section, answers, setAnswer, submitted) {
         textAlign: "center",
         margin: "8px 0 24px",
         padding: "16px 0",
-        borderTop: "3px solid #555",
-        borderBottom: "1px solid #555",
+        borderTop: `3px solid ${EX.muted}`,
+        borderBottom: `1px solid ${EX.muted}`,
       }}>
         <div style={{
           fontFamily: "'Playfair Display', Georgia, serif",
@@ -725,7 +715,7 @@ function renderOpinion(section, answers, setAnswer, submitted) {
         </div>
       </div>
 
-      {/* Person grid (like the exam's name/age/city badges) */}
+      {/* Person grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8, marginBottom: 24 }}>
         {section.opinions.map((op) => (
           <div key={op.id + "-badge"} style={{
@@ -738,7 +728,7 @@ function renderOpinion(section, answers, setAnswer, submitted) {
             gap: 8,
           }}>
             <span style={{ color: EX.orange, fontWeight: 700, fontSize: 15 }}>{op.id}</span>
-            <span style={{ color: "#bbb", fontSize: 13 }}>{op.person}</span>
+            <span style={{ color: EX.softText, fontSize: 13 }}>{op.person}</span>
           </div>
         ))}
       </div>
@@ -751,20 +741,20 @@ function renderOpinion(section, answers, setAnswer, submitted) {
           <div key={op.id} style={{
             padding: "16px 20px",
             borderBottom: `1px solid ${EX.grayBorder}`,
-            borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
-            background: oi % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+            borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
+            background: oi % 2 === 0 ? EX.stripeBg : "transparent",
           }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10 }}>
               <span style={{ color: EX.orange, fontWeight: 700, fontSize: 16 }}>{op.id}</span>
               <span style={{ fontWeight: 600, color: "#F5C842", fontSize: 13 }}>{op.person}</span>
             </div>
-            <p style={{ color: "#C8C6BE", fontSize: 14, lineHeight: 1.75, margin: "0 0 12px", paddingLeft: 26 }}>{op.text}</p>
+            <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 1.75, margin: "0 0 12px", paddingLeft: 26 }}>{op.text}</p>
             <div style={{ display: "flex", gap: 6, paddingLeft: 26 }}>
               {["ja", "nein"].map((val) => (
                 <button
                   key={val}
                   onClick={() => setAnswer(op.id, val)}
-                  style={rfBtn(answers[op.id] === val, submitted && op.answer === val, submitted)}
+                  style={rfBtn(answers[op.id] === val, submitted && op.answer === val, submitted, EX)}
                 >
                   {val === "ja" ? "Ja" : "Nein"}
                 </button>
@@ -779,7 +769,7 @@ function renderOpinion(section, answers, setAnswer, submitted) {
 
 
 // ── Cloze (grammar) — letter-style passage + inline blanks ──
-function renderCloze(section, answers, setAnswer, submitted) {
+function renderCloze(section, answers, setAnswer, submitted, EX) {
   const renderPassage = () => {
     const parts = section.passage.split(/\[(\d+)\]/g);
     return parts.map((part, i) => {
@@ -794,15 +784,15 @@ function renderCloze(section, answers, setAnswer, submitted) {
           <span key={i} style={{
             display: "inline-block",
             minWidth: 60,
-            borderBottom: `2px solid ${submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : "#555") : EX.orange}`,
+            borderBottom: `2px solid ${submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : EX.muted) : EX.orange}`,
             padding: "1px 6px",
             margin: "0 2px",
             fontWeight: 600,
-            color: submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : "#999") : (word ? EX.orange : "#555"),
+            color: submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : EX.subtleText) : (word ? EX.orange : EX.muted),
             textAlign: "center",
             fontSize: 14,
           }}>
-            {word || <span style={{ color: "#555" }}>__{qId}__</span>}
+            {word || <span style={{ color: EX.muted }}>__{qId}__</span>}
           </span>
         );
       }
@@ -812,8 +802,8 @@ function renderCloze(section, answers, setAnswer, submitted) {
 
   return (
     <>
-      <PassageBox variant="letter" title={section.passage.includes("Liebe") || section.passage.includes("Sehr geehrte") ? "Brief" : null}>
-        <p style={{ color: "#C8C6BE", fontSize: 14, lineHeight: 2.1, margin: 0, whiteSpace: "pre-line" }}>
+      <PassageBox variant="letter" title={section.passage.includes("Liebe") || section.passage.includes("Sehr geehrte") ? "Brief" : null} EX={EX}>
+        <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 2.1, margin: 0, whiteSpace: "pre-line" }}>
           {renderPassage()}
         </p>
       </PassageBox>
@@ -828,15 +818,15 @@ function renderCloze(section, answers, setAnswer, submitted) {
               display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap",
               padding: "10px 16px",
               borderBottom: `1px solid ${EX.grayBorder}`,
-              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
-              background: qi % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
+              background: qi % 2 === 0 ? EX.stripeBg : "transparent",
             }}>
               <span style={{ fontWeight: 700, color: EX.orange, fontSize: 15, minWidth: 28 }}>{q.id}</span>
               {q.options.map((opt) => (
                 <button
                   key={opt.label}
                   onClick={() => setAnswer(q.id, opt.label)}
-                  style={{ ...optBtn(answers[q.id] === opt.label, submitted && q.answer === opt.label, submitted), padding: "5px 14px", fontSize: 13 }}
+                  style={{ ...optBtn(answers[q.id] === opt.label, submitted && q.answer === opt.label, submitted, EX), padding: "5px 14px", fontSize: 13 }}
                 >
                   <span style={{ fontWeight: 700, marginRight: 4 }}>{opt.label})</span> {opt.text}
                 </button>
@@ -851,7 +841,7 @@ function renderCloze(section, answers, setAnswer, submitted) {
 
 
 // ── Word Bank Cloze — passage with drag-style word bank ──
-function renderWordBank(section, answers, setAnswer, submitted) {
+function renderWordBank(section, answers, setAnswer, submitted, EX) {
   const usedLetters = Object.values(answers);
 
   const renderPassage = () => {
@@ -868,15 +858,15 @@ function renderWordBank(section, answers, setAnswer, submitted) {
           <span key={i} style={{
             display: "inline-block",
             minWidth: 70,
-            borderBottom: `2px solid ${submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : "#555") : EX.orange}`,
+            borderBottom: `2px solid ${submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : EX.muted) : EX.orange}`,
             padding: "1px 6px",
             margin: "0 2px",
             fontWeight: 600,
-            color: submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : "#999") : (word ? EX.orange : "#555"),
+            color: submitted ? (correct ? "#22C55E" : wrong ? "#EF4444" : EX.subtleText) : (word ? EX.orange : EX.muted),
             textAlign: "center",
             fontSize: 14,
           }}>
-            {word || <span style={{ color: "#555" }}>__{qId}__</span>}
+            {word || <span style={{ color: EX.muted }}>__{qId}__</span>}
           </span>
         );
       }
@@ -894,15 +884,15 @@ function renderWordBank(section, answers, setAnswer, submitted) {
         padding: "14px 20px",
         marginBottom: 20,
       }}>
-        <div style={{ fontWeight: 600, color: "#777", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Wortbank</div>
+        <div style={{ fontWeight: 600, color: EX.muted, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Wortbank</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {section.wordBank.map((w) => (
             <span
               key={w.label}
               style={{
-                background: usedLetters.includes(w.label) ? "rgba(255,255,255,0.02)" : EX.orangeLight,
-                color: usedLetters.includes(w.label) ? "#555" : EX.orange,
-                border: `1px solid ${usedLetters.includes(w.label) ? "rgba(255,255,255,0.05)" : EX.orangeBorder}`,
+                background: usedLetters.includes(w.label) ? EX.ghostBg : EX.orangeLight,
+                color: usedLetters.includes(w.label) ? EX.muted : EX.orange,
+                border: `1px solid ${usedLetters.includes(w.label) ? EX.ghostBorder : EX.orangeBorder}`,
                 borderRadius: 4,
                 padding: "4px 10px",
                 fontSize: 13,
@@ -918,8 +908,8 @@ function renderWordBank(section, answers, setAnswer, submitted) {
       </div>
 
       {/* Passage */}
-      <PassageBox variant="letter" title={section.passage.includes("Sehr geehrte") || section.passage.includes("Liebe") ? "Brief" : null}>
-        <p style={{ color: "#C8C6BE", fontSize: 14, lineHeight: 2.1, margin: 0, whiteSpace: "pre-line" }}>
+      <PassageBox variant="letter" title={section.passage.includes("Sehr geehrte") || section.passage.includes("Liebe") ? "Brief" : null} EX={EX}>
+        <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 2.1, margin: 0, whiteSpace: "pre-line" }}>
           {renderPassage()}
         </p>
       </PassageBox>
@@ -934,8 +924,8 @@ function renderWordBank(section, answers, setAnswer, submitted) {
               display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
               padding: "10px 16px",
               borderBottom: `1px solid ${EX.grayBorder}`,
-              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted)}`,
-              background: qi % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+              borderLeft: `3px solid ${feedbackBorder(isCorrect, isWrong, submitted, EX)}`,
+              background: qi % 2 === 0 ? EX.stripeBg : "transparent",
             }}>
               <span style={{ fontWeight: 700, color: EX.orange, fontSize: 15, minWidth: 28 }}>{q.id}</span>
               <select
@@ -943,7 +933,7 @@ function renderWordBank(section, answers, setAnswer, submitted) {
                 onChange={(e) => setAnswer(q.id, e.target.value)}
                 disabled={submitted}
                 style={{
-                  background: EX.grayLight, color: "#E8E6E0",
+                  background: EX.selectBg, color: EX.selectColor,
                   border: `1.5px solid ${submitted ? (isCorrect ? "rgba(34,197,94,0.5)" : isWrong ? "rgba(239,68,68,0.5)" : EX.grayBorder) : (answers[q.id] ? EX.orangeBorder : EX.grayBorder)}`,
                   borderRadius: 6, padding: "7px 12px", fontSize: 14, minWidth: 200,
                 }}

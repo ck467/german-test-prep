@@ -1,24 +1,9 @@
 import { useState } from "react";
 import { STUDY_PLANS } from "../../data/b1StudyPlan.js";
+import useStyles from "../../useStyles.js";
+import { getEX } from "../../palettes.js";
 
-const EX = {
-  orange: "#E8712B",
-  orangeLight: "rgba(232,113,43,0.12)",
-  orangeBorder: "rgba(232,113,43,0.3)",
-  gray: "#23262F",
-  grayLight: "#1A1D27",
-  grayBorder: "rgba(255,255,255,0.1)",
-  white: "#F5F3EE",
-  muted: "#888",
-  green: "#22C55E",
-  greenLight: "rgba(34,197,94,0.12)",
-  greenBorder: "rgba(34,197,94,0.3)",
-  red: "#EF4444",
-  redLight: "rgba(239,68,68,0.12)",
-  redBorder: "rgba(239,68,68,0.3)",
-};
-
-function ScheduleBlock({ title, rows }) {
+function ScheduleBlock({ title, rows, EX }) {
   return (
     <div style={{ background: EX.grayLight, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 16 }}>
       {title && (
@@ -37,7 +22,7 @@ function ScheduleBlock({ title, rows }) {
   );
 }
 
-function DayCard({ day }) {
+function DayCard({ day, EX }) {
   const isMock = day.type === "mock";
   const isRest = day.type === "rest";
   const borderColor = isMock ? EX.redBorder : isRest ? EX.greenBorder : EX.grayBorder;
@@ -53,7 +38,7 @@ function DayCard({ day }) {
   );
 }
 
-function InfoBlock({ title, items }) {
+function InfoBlock({ title, items, EX }) {
   return (
     <div style={{ background: EX.grayLight, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, padding: 16 }}>
       <div style={{ fontFamily: "monospace", fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: EX.muted, marginBottom: 12 }}>{title}</div>
@@ -67,7 +52,7 @@ function InfoBlock({ title, items }) {
   );
 }
 
-function PhaseSection({ phase }) {
+function PhaseSection({ phase, EX }) {
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 16, paddingBottom: 10, borderBottom: `1px solid ${EX.grayBorder}`, flexWrap: "wrap" }}>
@@ -77,17 +62,17 @@ function PhaseSection({ phase }) {
         <span style={{ marginLeft: "auto", fontFamily: "monospace", fontSize: 11, padding: "4px 10px", border: `1px solid ${EX.grayBorder}`, color: EX.muted }}>{phase.tag}</span>
       </div>
 
-      {phase.schedule && <ScheduleBlock title="Daily Schedule" rows={phase.schedule} />}
+      {phase.schedule && <ScheduleBlock title="Daily Schedule" rows={phase.schedule} EX={EX} />}
 
       {phase.days && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12, marginBottom: 16 }}>
-          {phase.days.map((d, i) => <DayCard key={i} day={d} />)}
+          {phase.days.map((d, i) => <DayCard key={i} day={d} EX={EX} />)}
         </div>
       )}
 
       {phase.infoBlocks && (
         <div style={{ display: "grid", gridTemplateColumns: phase.infoBlocks.length > 1 ? "1fr 1fr" : "1fr", gap: 12, marginBottom: 16 }}>
-          {phase.infoBlocks.map((b, i) => <InfoBlock key={i} title={b.title} items={b.items} />)}
+          {phase.infoBlocks.map((b, i) => <InfoBlock key={i} title={b.title} items={b.items} EX={EX} />)}
         </div>
       )}
 
@@ -95,6 +80,7 @@ function PhaseSection({ phase }) {
         <ScheduleBlock
           title="Test Format Introduction"
           rows={phase.testFormat.map(t => ({ time: t.section, activity: t.detail, desc: t.desc }))}
+          EX={EX}
         />
       )}
     </div>
@@ -102,6 +88,8 @@ function PhaseSection({ phase }) {
 }
 
 export default function StudyPlan({ onBack }) {
+  const { S, theme } = useStyles();
+  const EX = getEX(theme);
   const [track, setTrack] = useState("sprint");
   const plan = track === "sprint" ? STUDY_PLANS.sprint : STUDY_PLANS.intensive;
   const exam = STUDY_PLANS.examOverview;
@@ -173,17 +161,17 @@ export default function StudyPlan({ onBack }) {
       <div style={{ display: "flex", gap: 0, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
         {track === "sprint" ? (
           <>
-            <RibbonItem label="Duration" value={plan.duration} sub="3 focused phases" />
-            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Escalating week to week" />
-            <RibbonItem label="Target Score" value={plan.targetScore} sub={plan.targetPoints} />
-            <RibbonItem label="Minimum Pass" value={plan.minimumPass} sub={plan.passNote} last />
+            <RibbonItem label="Duration" value={plan.duration} sub="3 focused phases" EX={EX} />
+            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Escalating week to week" EX={EX} />
+            <RibbonItem label="Target Score" value={plan.targetScore} sub={plan.targetPoints} EX={EX} />
+            <RibbonItem label="Minimum Pass" value={plan.minimumPass} sub={plan.passNote} last EX={EX} />
           </>
         ) : (
           <>
-            <RibbonItem label="Duration" value={plan.duration} sub="4 progressive phases" />
-            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Full-time commitment" />
-            <RibbonItem label="Total Hours" value={plan.totalHours} sub={plan.totalHoursRange} />
-            <RibbonItem label="Vocab Target" value={plan.vocabTarget} sub={plan.vocabNote} last />
+            <RibbonItem label="Duration" value={plan.duration} sub="4 progressive phases" EX={EX} />
+            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Full-time commitment" EX={EX} />
+            <RibbonItem label="Total Hours" value={plan.totalHours} sub={plan.totalHoursRange} EX={EX} />
+            <RibbonItem label="Vocab Target" value={plan.vocabTarget} sub={plan.vocabNote} last EX={EX} />
           </>
         )}
       </div>
@@ -208,15 +196,15 @@ export default function StudyPlan({ onBack }) {
             <span style={{ fontSize: 13, color: EX.muted, fontStyle: "italic" }}>Applies across all 8 weeks</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <ScheduleBlock title={plan.dailyTemplate.morning.title} rows={plan.dailyTemplate.morning.rows} />
-            <ScheduleBlock title={plan.dailyTemplate.afternoon.title} rows={plan.dailyTemplate.afternoon.rows} />
+            <ScheduleBlock title={plan.dailyTemplate.morning.title} rows={plan.dailyTemplate.morning.rows} EX={EX} />
+            <ScheduleBlock title={plan.dailyTemplate.afternoon.title} rows={plan.dailyTemplate.afternoon.rows} EX={EX} />
           </div>
         </div>
       )}
 
       {/* Phases */}
       {plan.phases.map((phase, i) => (
-        <PhaseSection key={i} phase={phase} />
+        <PhaseSection key={i} phase={phase} EX={EX} />
       ))}
 
       {/* Scoring (sprint only) */}
@@ -226,14 +214,14 @@ export default function StudyPlan({ onBack }) {
             <span style={{ fontFamily: "monospace", fontSize: 11, color: EX.muted, letterSpacing: 1 }}>REFERENCE</span>
             <span style={{ fontSize: 20, fontWeight: 600, color: EX.white }}>{plan.scoring.title}</span>
           </div>
-          <ScheduleBlock title={plan.scoring.subtitle} rows={plan.scoring.rows.map(r => ({ time: r.points, activity: r.name, desc: r.desc }))} />
+          <ScheduleBlock title={plan.scoring.subtitle} rows={plan.scoring.rows.map(r => ({ time: r.points, activity: r.name, desc: r.desc }))} EX={EX} />
         </div>
       )}
     </div>
   );
 }
 
-function RibbonItem({ label, value, sub, last }) {
+function RibbonItem({ label, value, sub, last, EX }) {
   return (
     <div style={{ flex: 1, padding: "14px 16px", borderRight: last ? "none" : `1px solid ${EX.grayBorder}`, background: EX.gray }}>
       <div style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: EX.muted, marginBottom: 4 }}>{label}</div>

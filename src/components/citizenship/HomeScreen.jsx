@@ -1,7 +1,8 @@
-import S from "../../styles.js";
+import useStyles from "../../useStyles.js";
 import { STATES } from "../../data/citizenshipQuestions.js";
 
 export default function HomeScreen({ onMode, selectedState, setSelectedState, stats }) {
+  const { S } = useStyles();
   const stateStats = stats.state?.[selectedState];
   const generalStats = stats.general;
 
@@ -12,18 +13,18 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
           <span style={{ fontSize: 28 }}>🇩🇪</span>
           <h1 style={S.h1}>German Citizenship Test</h1>
         </div>
-        <p style={{ color: "#777", fontSize: 15, margin: 0 }}>
+        <p style={{ color: S.p.textMuted, fontSize: 15, margin: 0 }}>
           Full exam prep · 300 general questions · 160 state-specific questions (10 per federal state)
         </p>
       </div>
 
       {/* State Selector */}
       <div style={{ ...S.card(), marginBottom: 24 }}>
-        <div style={{ fontWeight: 600, color: "#F5F3EE", marginBottom: 12 }}>Your Federal State (for the exam)</div>
+        <div style={{ fontWeight: 600, color: S.p.headingText, marginBottom: 12 }}>Your Federal State (for the exam)</div>
         <select
           value={selectedState}
           onChange={e => setSelectedState(e.target.value)}
-          style={{ width: "100%", background: "#0B0D14", color: "#E8E6E0", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, padding: "10px 14px", fontSize: 15, cursor: "pointer", outline: "none" }}
+          style={{ width: "100%", background: S.p.selectBg, color: S.p.bodyText, border: `1px solid ${S.p.border15}`, borderRadius: 8, padding: "10px 14px", fontSize: 15, cursor: "pointer", outline: "none" }}
         >
           {STATES.map(s => (
             <option key={s.key} value={s.key}>{s.name}</option>
@@ -52,11 +53,11 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
             onClick={() => onMode(card.mode)}
             style={{ ...S.card(), cursor: "pointer", transition: "all 0.2s", textAlign: "center" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(245,200,66,0.4)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = ""; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = S.p.border08; e.currentTarget.style.transform = ""; }}
           >
             <div style={{ fontSize: 32, marginBottom: 10 }}>{card.icon}</div>
-            <div style={{ fontWeight: 700, color: "#F5F3EE", marginBottom: 4, fontSize: 15 }}>{card.label}</div>
-            <div style={{ color: "#777", fontSize: 13, marginBottom: 10 }}>{card.desc}</div>
+            <div style={{ fontWeight: 700, color: S.p.headingText, marginBottom: 4, fontSize: 15 }}>{card.label}</div>
+            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 10 }}>{card.desc}</div>
             <span style={S.tag}>{card.sub}</span>
             {card.stat && <div style={{ marginTop: 10, fontSize: 13, color: "#F5C842", fontWeight: 600 }}>{card.stat}</div>}
           </div>
@@ -74,7 +75,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
           ].map(item => (
             <div key={item.l}>
               <div style={{ fontSize: 24, fontWeight: 700, color: "#F5C842", fontFamily: "'Playfair Display', serif" }}>{item.n}</div>
-              <div style={{ color: "#666", fontSize: 12, marginTop: 2 }}>{item.l}</div>
+              <div style={{ color: S.p.textMuted, fontSize: 12, marginTop: 2 }}>{item.l}</div>
             </div>
           ))}
         </div>
