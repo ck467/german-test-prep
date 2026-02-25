@@ -66,14 +66,14 @@ export default function B1HomeScreen({
   };
 
   return (
-    <div style={S.inner}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+    <div style={{ ...S.inner, paddingTop: 20, paddingBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
         {MODULE_CARDS.map((card) => (
           <div
             key={card.key}
             onClick={handlers[card.key]}
             style={{
-              ...S.card({ padding: 24 }),
+              ...S.card({ padding: "16px 20px" }),
               cursor: "pointer",
               transition: "all 0.25s",
               borderColor: card.border,
@@ -87,14 +87,14 @@ export default function B1HomeScreen({
               e.currentTarget.style.transform = "";
             }}
           >
-            <div style={{ fontSize: 36, marginBottom: 10 }}>{card.icon}</div>
-            <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 17, marginBottom: 4 }}>
+            <div style={{ fontSize: 26, marginBottom: 6 }}>{card.icon}</div>
+            <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 16, marginBottom: 3 }}>
               {card.title}
             </div>
-            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 12, lineHeight: 1.4 }}>
+            <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 10, lineHeight: 1.4 }}>
               {card.subtitle}
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
               {card.tags.map((tag) => (
                 <span
                   key={tag}
@@ -115,8 +115,8 @@ export default function B1HomeScreen({
 
       <div
         style={{
-          marginTop: 20,
-          padding: "12px 0",
+          marginTop: 14,
+          padding: "8px 0",
           textAlign: "center",
           color: S.p.textMuted,
           fontSize: 13,
