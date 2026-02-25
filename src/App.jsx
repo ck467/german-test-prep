@@ -2,13 +2,21 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
 import CitizenshipModule from "./components/citizenship/CitizenshipModule.jsx";
 import B1GermanModule from "./components/b1german/B1GermanModule.jsx";
+import { MODULES } from "./data/modules.js";
+
+const MODULE_COMPONENTS = {
+  "citizenship": CitizenshipModule,
+  "b1-german": B1GermanModule,
+};
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/citizenship" element={<CitizenshipModule />} />
-      <Route path="/b1-german" element={<B1GermanModule />} />
+      {MODULES.map((mod) => {
+        const Component = MODULE_COMPONENTS[mod.id];
+        return <Route key={mod.id} path={mod.route} element={<Component />} />;
+      })}
     </Routes>
   );
 }

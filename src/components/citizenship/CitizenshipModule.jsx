@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import S from "../../styles.js";
 import { GENERAL_QUESTIONS, STATE_QUESTIONS, STATES } from "../../data/citizenshipQuestions.js";
+import ModuleLayout from "../shared/ModuleLayout.jsx";
 import HomeScreen from "./HomeScreen.jsx";
 import PracticeMode from "./PracticeMode.jsx";
 import ExamMode from "./ExamMode.jsx";
@@ -10,7 +10,6 @@ export default function CitizenshipModule() {
   const [mode, setMode] = useState("home");
   const [selectedState, setSelectedState] = useState("BE");
   const [stats, setStats] = useState({ general: null, state: {}, exam: null });
-  const navigate = useNavigate();
 
   const handleComplete = (type, score, max) => {
     setStats(prev => {
@@ -23,17 +22,14 @@ export default function CitizenshipModule() {
   };
 
   return (
-    <div style={S.root}>
-      {/* Header */}
-      <header style={S.header}>
-        <div style={S.logo} onClick={() => navigate("/")}>German Test Prep</div>
-        <nav style={S.nav}>
-          <button style={S.navBtn(mode === "home")} onClick={() => setMode("home")}>Home</button>
-          <button style={S.navBtn(mode === "practiceGeneral")} onClick={() => setMode("practiceGeneral")}>General Questions</button>
-          <button style={S.navBtn(mode === "practiceState")} onClick={() => setMode("practiceState")}>State Questions</button>
-          <button style={S.navBtn(mode === "exam")} onClick={() => setMode("exam")}>Practice Exam</button>
-        </nav>
-      </header>
+    <ModuleLayout nav={
+      <>
+        <button style={S.navBtn(mode === "home")} onClick={() => setMode("home")}>Home</button>
+        <button style={S.navBtn(mode === "practiceGeneral")} onClick={() => setMode("practiceGeneral")}>General Questions</button>
+        <button style={S.navBtn(mode === "practiceState")} onClick={() => setMode("practiceState")}>State Questions</button>
+        <button style={S.navBtn(mode === "exam")} onClick={() => setMode("exam")}>Practice Exam</button>
+      </>
+    }>
 
       {mode === "home" && (
         <HomeScreen
@@ -69,6 +65,6 @@ export default function CitizenshipModule() {
           onComplete={(score, max) => handleComplete("exam", score, max)}
         />
       )}
-    </div>
+    </ModuleLayout>
   );
 }

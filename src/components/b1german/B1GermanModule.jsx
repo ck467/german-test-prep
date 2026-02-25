@@ -1,18 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import S from "../../styles.js";
+import ModuleLayout from "../shared/ModuleLayout.jsx";
 import B1HomeScreen from "./B1HomeScreen.jsx";
 import FlashcardMode from "./FlashcardMode.jsx";
 import QuizMode from "./QuizMode.jsx";
+import ExamPractice from "./ExamPractice.jsx";
+import StudyPlan from "./StudyPlan.jsx";
+import { B1_EXAMS } from "../../data/b1Exams.js";
 
 export default function B1GermanModule() {
-  const [screen, setScreen] = useState("home"); // home | flashcards | quiz
+  const [screen, setScreen] = useState("home"); // home | flashcards | quiz | exam | studyplan
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const navigate = useNavigate();
+  const [selectedExam, setSelectedExam] = useState(null);
 
   const handleSelectTopic = (topic) => {
     setSelectedTopic(topic);
     setScreen("flashcards");
+  };
+
+  const handleSelectExam = (exam) => {
+    setSelectedExam(exam);
+    setScreen("exam");
+  };
+
+  const handleSelectStudyPlan = () => {
+    setScreen("studyplan");
   };
 
   const handleStartQuiz = () => {
@@ -22,6 +34,7 @@ export default function B1GermanModule() {
   const handleBackToHome = () => {
     setScreen("home");
     setSelectedTopic(null);
+    setSelectedExam(null);
   };
 
   const handleBackToFlashcards = () => {
@@ -29,23 +42,26 @@ export default function B1GermanModule() {
   };
 
   return (
-    <div style={S.root}>
-      {/* Header */}
-      <header style={S.header}>
-        <div style={S.logo} onClick={() => navigate("/")}>German Test Prep</div>
-        <nav style={S.nav}>
-          <button style={S.navBtn(screen === "home")} onClick={handleBackToHome}>Topics</button>
-          {selectedTopic && (
-            <>
-              <button style={S.navBtn(screen === "flashcards")} onClick={handleBackToFlashcards}>Flashcards</button>
-              <button style={S.navBtn(screen === "quiz")} onClick={handleStartQuiz}>Quiz</button>
-            </>
-          )}
-        </nav>
-      </header>
+    <ModuleLayout nav={
+      <>
+        <button style={S.navBtn(screen === "home")} onClick={handleBackToHome}>Home</button>
+        {selectedTopic && (
+          <>
+            <button style={S.navBtn(screen === "flashcards")} onClick={handleBackToFlashcards}>Flashcards</button>
+            <button style={S.navBtn(screen === "quiz")} onClick={handleStartQuiz}>Quiz</button>
+          </>
+        )}
+        {screen === "exam" && (
+          <button style={S.navBtn(true)}>Exam Practice</button>
+        )}
+        {screen === "studyplan" && (
+          <button style={S.navBtn(true)}>Study Plan</button>
+        )}
+      </>
+    }>
 
       {screen === "home" && (
-        <B1HomeScreen onSelectTopic={handleSelectTopic} />
+        <B1HomeScreen onSelectTopic={handleSelectTopic} onSelectExam={handleSelectExam} onSelectStudyPlan={handleSelectStudyPlan} exams={B1_EXAMS} />
       )}
 
       {screen === "flashcards" && selectedTopic && (
@@ -63,6 +79,14 @@ export default function B1GermanModule() {
           onBackToFlashcards={handleBackToFlashcards}
         />
       )}
-    </div>
+
+      {screen === "exam" && selectedExam && (
+        <ExamPractice exam={selectedExam} onBack={handleBackToHome} />
+      )}
+
+      {screen === "studyplan" && (
+        <StudyPlan onBack={handleBackToHome} />
+      )}
+    </ModuleLayout>
   );
 }

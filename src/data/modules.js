@@ -1,0 +1,42 @@
+export const MODULES = [
+  {
+    id: "citizenship",
+    route: "/citizenship",
+    title: "Einbürgerungstest",
+    icon: "🇩🇪",
+    description:
+      "300 general + 160 state-specific questions. Practice mode, exam simulation, and English translations.",
+    tags: ["300 Questions", "Exam Mode", "16 States"],
+    cta: "Start Prep",
+    accent: {
+      text: "#F5C842",
+      border: "rgba(245,200,66,0.15)",
+      borderHover: "rgba(245,200,66,0.5)",
+      shadow: "rgba(245,200,66,0.1)",
+      tagBg: "rgba(245,200,66,0.1)",
+      tagBorder: "rgba(245,200,66,0.2)",
+      btnBg: "#F5C842",
+      btnColor: "#0B0D14",
+    },
+  },
+  {
+    id: "b1-german",
+    route: "/b1-german",
+    title: "B1 German",
+    icon: "📖",
+    description:
+      "Build your B1-level vocabulary with flashcards and quizzes. 8 everyday topics with example sentences.",
+    tags: ["Flashcards", "Quizzes", "8 Topics"],
+    cta: "Start Learning",
+    accent: {
+      text: "#60A5FA",
+      border: "rgba(96,165,250,0.15)",
+      borderHover: "rgba(96,165,250,0.5)",
+      shadow: "rgba(96,165,250,0.1)",
+      tagBg: "rgba(96,165,250,0.1)",
+      tagBorder: "rgba(96,165,250,0.2)",
+      btnBg: "#60A5FA",
+      btnColor: "#0B0D14",
+    },
+  },
+];
