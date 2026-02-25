@@ -33,7 +33,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
       </div>
 
       {/* Mode Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 16, flex: 1 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 16 }}>
         {[
           {
             icon: "📚", label: "Practice All", desc: "300 general questions", sub: "With instant feedback", mode: "practiceGeneral",
@@ -51,7 +51,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
           <div
             key={card.mode}
             onClick={() => onMode(card.mode)}
-            style={{ ...S.card({ padding: "20px 16px" }), cursor: "pointer", transition: "all 0.2s", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
+            style={{ ...S.card({ padding: "20px 16px" }), cursor: "pointer", transition: "all 0.2s", textAlign: "center" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(245,200,66,0.4)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = S.p.border08; e.currentTarget.style.transform = ""; }}
           >

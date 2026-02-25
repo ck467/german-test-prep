@@ -67,7 +67,7 @@ export default function B1HomeScreen({
 
   return (
     <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: "24px 24px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, flex: 1, gridTemplateRows: "1fr 1fr" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         {MODULE_CARDS.map((card) => (
           <div
             key={card.key}
@@ -77,9 +77,6 @@ export default function B1HomeScreen({
               cursor: "pointer",
               transition: "all 0.25s",
               borderColor: card.border,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = card.borderHover;
