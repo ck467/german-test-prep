@@ -46,6 +46,13 @@ export default function B1GermanModule() {
     setScreen("quiz");
   };
 
+  const handleGeneralQuiz = () => {
+    const allCards = B1_TOPICS.flatMap(t => t.cards);
+    const shuffled = [...allCards].sort(() => Math.random() - 0.5).slice(0, 30);
+    setSelectedTopic({ id: "general", name: "General Quiz", icon: "\uD83C\uDF10", cards: shuffled });
+    setScreen("quiz");
+  };
+
   const handleBackToHome = () => {
     setScreen("home");
     setSelectedTopic(null);
@@ -160,6 +167,17 @@ export default function B1GermanModule() {
             Build your vocabulary with flashcards and quizzes · {B1_TOPICS.length} topics · {B1_TOPICS.reduce((sum, t) => sum + t.cards.length, 0).toLocaleString()} words
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+            <div
+              onClick={handleGeneralQuiz}
+              style={{ ...S.card(), cursor: "pointer", transition: "all 0.2s", textAlign: "center", borderColor: "rgba(96,165,250,0.2)", gridColumn: "1 / -1" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(96,165,250,0.5)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(96,165,250,0.2)"; e.currentTarget.style.transform = ""; }}
+            >
+              <div style={{ fontSize: 32, marginBottom: 8 }}>{"\uD83C\uDF10"}</div>
+              <div style={{ fontWeight: 700, color: S.p.headingText, marginBottom: 6, fontSize: 16 }}>General Quiz</div>
+              <div style={{ color: S.p.textMuted, fontSize: 13, marginBottom: 8 }}>30 random words across all topics</div>
+              <span style={{ ...S.tag, background: "rgba(96,165,250,0.1)", color: "#60A5FA", borderColor: "rgba(96,165,250,0.2)" }}>All Topics</span>
+            </div>
             {B1_TOPICS.map((topic) => (
               <div
                 key={topic.id}

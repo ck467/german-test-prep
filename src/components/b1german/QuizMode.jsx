@@ -17,6 +17,8 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
   const { S } = useStyles();
   const allCards = useMemo(() => B1_TOPICS.flatMap(t => t.cards), []);
 
+  const isGeneral = topic.id === "general";
+
   const questions = useMemo(() => {
     return topic.cards.map(card => {
       const wrongPool = allCards.filter(c => c.id !== card.id);
@@ -68,7 +70,7 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
           <div style={{ color: S.p.textMuted, marginBottom: 40 }}>{pct}% correct</div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
             <button onClick={onBack} style={S.btn("ghost")}>← Topics</button>
-            <button onClick={onBackToFlashcards} style={S.btn("ghost")}>← Flashcards</button>
+            {!isGeneral && <button onClick={onBackToFlashcards} style={S.btn("ghost")}>← Flashcards</button>}
             <button onClick={() => { setIdx(0); setSelected(null); setShowResult(false); setScore(0); setFinished(false); }} style={S.btn("primary")}>
               Try Again
             </button>
