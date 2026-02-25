@@ -118,14 +118,12 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
       {/* Options */}
       <div style={{ display: "grid", gap: 10, marginBottom: 24, ...(q.optImgs ? { gridTemplateColumns: "1fr 1fr" } : {}) }}>
         {q.opts.map((opt, i) => {
-          let border = `1px solid ${S.p.border08}`;
-          let bg = S.p.cardBg;
+          let border = "1px solid transparent";
+          let bg = "transparent";
           let color = S.p.ghostBtnText;
           if (selected !== null) {
             if (i === q.a) { border = "1px solid rgba(16,185,129,0.6)"; bg = "rgba(16,185,129,0.12)"; color = "#10B981"; }
             else if (i === selected && !isCorrect) { border = "1px solid rgba(239,68,68,0.6)"; bg = "rgba(239,68,68,0.12)"; color = "#EF4444"; }
-          } else if (selected === i) {
-            border = "1px solid rgba(245,200,66,0.5)"; bg = "rgba(245,200,66,0.1)"; color = "#F5C842";
           }
           return (
             <button
@@ -134,7 +132,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
               disabled={selected !== null}
               style={{ background: bg, border, borderRadius: 10, padding: q.optImgs ? "12px" : "14px 18px", cursor: selected !== null ? "default" : "pointer", textAlign: q.optImgs ? "center" : "left", color, fontSize: 15, transition: "all 0.15s", display: "flex", flexDirection: q.optImgs ? "column" : "row", alignItems: "center", gap: q.optImgs ? 8 : 12 }}
             >
-              <span style={{ width: 26, height: 26, borderRadius: 6, border: `1px solid ${color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0, color }}>
+              <span style={{ width: 26, height: 26, borderRadius: 6, background: selected === null ? S.p.ghostBtnBg : "transparent", border: selected !== null ? `1px solid ${color}44` : "1px solid transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0, color }}>
                 {selected !== null && i === q.a ? "✓" : selected !== null && i === selected && !isCorrect ? "✗" : (q.img || q.optImgs) ? String(i + 1) : String.fromCharCode(65 + i)}
               </span>
               {q.optImgs?.[i] && <img src={assetPath(q.optImgs[i])} alt="" style={{ maxWidth: "100%", maxHeight: 120, borderRadius: 6 }} />}

@@ -108,8 +108,8 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
       {/* Options */}
       <div style={{ display: "grid", gap: 10, marginBottom: 24 }}>
         {q.options.map((opt, i) => {
-          let border = `1px solid ${S.p.border08}`;
-          let bg = S.p.cardBg;
+          let border = "1px solid transparent";
+          let bg = "transparent";
           let color = S.p.ghostBtnText;
           if (selected !== null) {
             if (i === q.correctIdx) { border = "1px solid rgba(16,185,129,0.6)"; bg = "rgba(16,185,129,0.12)"; color = "#10B981"; }
@@ -122,7 +122,7 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
               disabled={selected !== null}
               style={{ background: bg, border, borderRadius: 10, padding: "14px 18px", cursor: selected !== null ? "default" : "pointer", textAlign: "left", color, fontSize: 15, transition: "all 0.15s", display: "flex", alignItems: "center", gap: 12 }}
             >
-              <span style={{ width: 26, height: 26, borderRadius: 6, border: `1px solid ${color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0, color }}>
+              <span style={{ width: 26, height: 26, borderRadius: 6, background: selected === null ? S.p.ghostBtnBg : "transparent", border: selected !== null ? `1px solid ${color}44` : "1px solid transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0, color }}>
                 {selected !== null && i === q.correctIdx ? "✓" : selected !== null && i === selected && !isCorrect ? "✗" : String.fromCharCode(65 + i)}
               </span>
               {opt}

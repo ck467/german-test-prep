@@ -184,14 +184,14 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
                     key={oi}
                     onClick={() => setAnswers(prev => ({ ...prev, [q.id]: oi }))}
                     style={{
-                      background: ans === oi ? "rgba(245,200,66,0.12)" : S.p.stripeBg,
-                      border: `1px solid ${ans === oi ? "rgba(245,200,66,0.5)" : S.p.border08}`,
+                      background: ans === oi ? "rgba(245,200,66,0.12)" : "transparent",
+                      border: `1px solid ${ans === oi ? "rgba(245,200,66,0.5)" : "transparent"}`,
                       borderRadius: 8, padding: q.optImgs ? "10px" : "11px 16px", cursor: "pointer", textAlign: q.optImgs ? "center" : "left",
                       color: ans === oi ? "#F5C842" : S.p.textMuted, fontSize: 14, transition: "all 0.12s",
                       display: "flex", flexDirection: q.optImgs ? "column" : "row", alignItems: "center", gap: q.optImgs ? 6 : 10
                     }}
                   >
-                    <span style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${ans === oi ? "#F5C842" : S.p.border15}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${ans === oi ? "#F5C842" : S.p.textMuted}44`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                       {ans === oi && <span style={{ width: 10, height: 10, borderRadius: 5, background: "#F5C842", display: "block" }} />}
                     </span>
                     {q.optImgs?.[oi] && <img src={assetPath(q.optImgs[oi])} alt="" style={{ maxWidth: "100%", maxHeight: 100, borderRadius: 6 }} />}
