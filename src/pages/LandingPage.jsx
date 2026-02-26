@@ -57,6 +57,35 @@ export default function LandingPage() {
           ))}
         </div>
 
+        {/* Coming Soon Teasers */}
+        <div style={{ marginTop: 32 }}>
+          <div style={{ textAlign: "center", marginBottom: 16 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: S.p.textMuted }}>Coming Soon</span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+            {[
+              { icon: "\uD83D\uDCDD", title: "Full Mock Exams", desc: "Complete timed Goethe & telc B1 practice exams with all sections — Lesen, H\u00F6ren, Schreiben, Sprechen", color: "#A855F7", border: "rgba(168,85,247,0.12)" },
+              { icon: "\uD83D\uDCC4", title: "Document Checklist", desc: "Sample forms, required documents, and templates you need for your Einb\u00FCrgerung application", color: "#F59E0B", border: "rgba(245,158,11,0.12)" },
+              { icon: "\u2705", title: "Eligibility Check", desc: "Answer a few questions to see if you meet the residency, income, and language requirements", color: "#10B981", border: "rgba(16,185,129,0.12)" },
+            ].map((t) => (
+              <div
+                key={t.title}
+                style={{
+                  ...S.card({ padding: "20px 20px" }),
+                  textAlign: "center",
+                  borderColor: t.border,
+                  opacity: 0.6,
+                }}
+              >
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{t.icon}</div>
+                <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 15, marginBottom: 6 }}>{t.title}</div>
+                <div style={{ color: S.p.textMuted, fontSize: 13, lineHeight: 1.5, marginBottom: 12 }}>{t.desc}</div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: t.color, letterSpacing: 0.5 }}>Coming Soon</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div style={{ textAlign: "center", color: S.p.textMuted, fontSize: 13, marginTop: 24 }}>
           Free and open-source · No account needed · Practice at your own pace
         </div>
