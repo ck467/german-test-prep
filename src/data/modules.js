@@ -25,8 +25,8 @@ export const MODULES = [
     title: "B1 German",
     icon: "📖",
     description:
-      "Build your B1-level vocabulary with flashcards and quizzes. 8 everyday topics with example sentences.",
-    tags: ["Flashcards", "Quizzes", "8 Topics"],
+      "Exam practice, study plans, cheat sheets, and 3,000+ vocabulary flashcards across 24 topics.",
+    tags: ["Exam Practice", "Study Plans", "Cheat Sheets", "Vocabulary"],
     cta: "Start Learning",
     accent: {
       text: "#60A5FA",
