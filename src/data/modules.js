@@ -26,7 +26,7 @@ export const MODULES = [
     icon: "📖",
     description:
       "Exam practice, study plans, cheat sheets, and 3,000+ vocabulary flashcards across 24 topics.",
-    tags: ["Exam Practice", "Study Plans", "Cheat Sheets", "Vocabulary"],
+    tags: ["Exam Practice", "Study Plans", "3,000+ Words"],
     cta: "Start Learning",
     accent: {
       text: "#60A5FA",

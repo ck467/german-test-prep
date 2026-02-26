@@ -33,13 +33,16 @@ export default function LandingPage() {
                 transition: "all 0.25s",
                 textAlign: "center",
                 borderColor: mod.accent.border,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = mod.accent.borderHover; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 8px 32px ${mod.accent.shadow}`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = mod.accent.border; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
             >
               <div style={{ fontSize: 48, marginBottom: 16 }}>{mod.icon}</div>
               <h2 style={{ ...S.h2, fontSize: 24, marginBottom: 8 }}>{mod.title}</h2>
-              <p style={{ color: S.p.textMuted, fontSize: 15, lineHeight: 1.5, marginBottom: 16 }}>
+              <p style={{ color: S.p.textMuted, fontSize: 15, lineHeight: 1.5, marginBottom: 16, flex: 1 }}>
                 {mod.description}
               </p>
               <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
