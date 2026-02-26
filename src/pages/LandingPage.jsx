@@ -60,6 +60,14 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", color: S.p.textMuted, fontSize: 13, marginTop: 24 }}>
           Free and open-source · No account needed · Practice at your own pace
         </div>
+
+        <div style={{ textAlign: "center", color: S.p.textMuted, fontSize: 11, marginTop: 16, lineHeight: 1.6, maxWidth: 600, marginLeft: "auto", marginRight: "auto", opacity: 0.7 }}>
+          Content based on publicly available materials from{" "}
+          <a href="https://www.bamf.de" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>BAMF</a>,{" "}
+          <a href="https://www.goethe.de" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>Goethe-Institut</a>, and{" "}
+          <a href="https://www.telc.net" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>telc</a>.
+          This is an independent study aid, not affiliated with or endorsed by these organizations.
+        </div>
       </div>
     </div>
   );
