@@ -219,7 +219,7 @@ function ContentBlock({ block, CS }) {
 }
 
 export default function CheatSheets({ onBack }) {
-  const { S, theme } = useStyles();
+  const { S, theme, isMobile } = useStyles();
   const CS = getCS(theme);
   const [activeTab, setActiveTab] = useState(0);
   const section = B1_CHEAT_SHEETS[activeTab];
@@ -230,7 +230,7 @@ export default function CheatSheets({ onBack }) {
       <div style={{ marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
           <span style={{ fontSize: 28 }}>{"\uD83D\uDCCB"}</span>
-          <h1 style={S.h1}>Exam Cheat Sheets</h1>
+          <h1 style={{ ...S.h1, fontSize: isMobile ? 22 : undefined }}>Exam Cheat Sheets</h1>
         </div>
         <p style={{ color: S.p.textMuted, fontSize: 15, margin: 0, marginBottom: 20 }}>
           Quick-reference strategies, templates & scoring for all 5 exam sections

@@ -11,7 +11,7 @@ import { B1_EXAMS } from "../../data/b1Exams.js";
 import { B1_TOPICS } from "../../data/b1Vocab.js";
 
 export default function B1GermanModule() {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const [screen, setScreen] = useState("home");
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedExam, setSelectedExam] = useState(null);
@@ -111,13 +111,13 @@ export default function B1GermanModule() {
           <p style={{ color: S.p.textMuted, fontSize: 15, margin: 0, marginBottom: 20 }}>
             Practice with real B1 exam questions from official mock tests
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
             {B1_EXAMS.map((exam) => (
               <div
                 key={exam.id}
                 onClick={() => handleSelectExam(exam)}
                 style={{
-                  ...S.card({ padding: 28 }),
+                  ...S.card({ padding: isMobile ? 16 : 28 }),
                   cursor: "pointer",
                   transition: "all 0.25s",
                   borderColor: exam.source === "goethe" ? "rgba(96,165,250,0.15)" : "rgba(168,85,247,0.15)",
@@ -166,7 +166,7 @@ export default function B1GermanModule() {
           <p style={{ color: S.p.textMuted, fontSize: 15, margin: 0, marginBottom: 20 }}>
             Build your vocabulary with flashcards and quizzes · {B1_TOPICS.length} topics · {B1_TOPICS.reduce((sum, t) => sum + t.cards.length, 0).toLocaleString()} words
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fill, minmax(${isMobile ? "140px" : "200px"}, 1fr))`, gap: 16 }}>
             <div
               onClick={handleGeneralQuiz}
               style={{ ...S.card(), cursor: "pointer", transition: "all 0.2s", textAlign: "center", borderColor: "rgba(96,165,250,0.2)", gridColumn: "1 / -1" }}

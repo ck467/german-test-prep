@@ -5,7 +5,7 @@ import { GENERAL_QUESTIONS, STATE_QUESTIONS, STATES, shuffle } from "../../data/
 const assetPath = (p) => import.meta.env.BASE_URL + p.slice(1);
 
 export default function ExamMode({ selectedState, onBack, onComplete }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const [phase, setPhase] = useState("intro");
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
@@ -59,7 +59,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
       <div style={S.inner}>
         <div style={{ textAlign: "center", padding: "40px 0" }}>
           <div style={{ fontSize: 56, marginBottom: 20 }}>⏱️</div>
-          <h2 style={{ ...S.h1, marginBottom: 12 }}>Practice Exam</h2>
+          <h2 style={{ ...S.h1, fontSize: isMobile ? 22 : undefined, marginBottom: 12 }}>Practice Exam</h2>
           <p style={{ color: S.p.textMuted, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
             33 questions (30 general + 3 for {stateName}) · 60 minutes · At least 17 correct answers to pass
           </p>
@@ -80,7 +80,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
       <div style={S.inner}>
         <div style={{ textAlign: "center", padding: "40px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{passed ? "🎓" : "📖"}</div>
-          <h2 style={{ ...S.h1, marginBottom: 8 }}>{passed ? "Passed!" : "Not Passed"}</h2>
+          <h2 style={{ ...S.h1, fontSize: isMobile ? 22 : undefined, marginBottom: 8 }}>{passed ? "Passed!" : "Not Passed"}</h2>
           <div style={{ color: S.p.textMuted, marginBottom: 32 }}>Passing score: 17 out of 33</div>
           <div style={{ fontSize: 56, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: passed ? "#10B981" : "#EF4444", marginBottom: 8 }}>
             {correct}/33
@@ -148,13 +148,13 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
   return (
     <div style={S.root}>
       {/* Sticky exam header */}
-      <div style={{ position: "sticky", top: 0, zIndex: 50, background: S.p.rootBg, borderBottom: `1px solid ${S.p.border08}`, padding: "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 50, background: S.p.rootBg, borderBottom: `1px solid ${S.p.border08}`, padding: isMobile ? "10px 12px" : "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 8 : 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span style={{ color: S.p.textMuted, fontSize: 13 }}>Practice Exam · {stateName}</span>
           <span style={{ background: S.p.ghostBtnBg, borderRadius: 6, padding: "4px 10px", fontSize: 13 }}>{answered}/33 answered</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: timerColor }}>{formatTime(timeLeft)}</span>
+          <span style={{ fontFamily: "monospace", fontSize: isMobile ? 16 : 20, fontWeight: 700, color: timerColor }}>{formatTime(timeLeft)}</span>
           <button onClick={submitExam} style={S.btn("primary")}>Submit</button>
         </div>
       </div>

@@ -7,7 +7,7 @@ import PracticeMode from "./PracticeMode.jsx";
 import ExamMode from "./ExamMode.jsx";
 
 export default function CitizenshipModule() {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const [mode, setMode] = useState("home");
   const [selectedState, setSelectedState] = useState("BE");
   const [stats, setStats] = useState({ general: null, state: {}, exam: null });
@@ -26,9 +26,9 @@ export default function CitizenshipModule() {
     <ModuleLayout nav={
       <>
         <button style={S.navBtn(mode === "home")} onClick={() => setMode("home")}>Home</button>
-        <button style={S.navBtn(mode === "practiceGeneral")} onClick={() => setMode("practiceGeneral")}>General Questions</button>
-        <button style={S.navBtn(mode === "practiceState")} onClick={() => setMode("practiceState")}>State Questions</button>
-        <button style={S.navBtn(mode === "exam")} onClick={() => setMode("exam")}>Practice Exam</button>
+        <button style={S.navBtn(mode === "practiceGeneral")} onClick={() => setMode("practiceGeneral")}>{isMobile ? "General" : "General Questions"}</button>
+        <button style={S.navBtn(mode === "practiceState")} onClick={() => setMode("practiceState")}>{isMobile ? "State" : "State Questions"}</button>
+        <button style={S.navBtn(mode === "exam")} onClick={() => setMode("exam")}>{isMobile ? "Exam" : "Practice Exam"}</button>
       </>
     }>
 

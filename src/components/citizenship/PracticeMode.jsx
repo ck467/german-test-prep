@@ -6,7 +6,7 @@ import ScoreBadge from "../shared/ScoreBadge.jsx";
 const assetPath = (p) => import.meta.env.BASE_URL + p.slice(1);
 
 export default function PracticeMode({ questions, title, onBack, onComplete }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showResult, setShowResult] = useState(false);
@@ -58,7 +58,7 @@ export default function PracticeMode({ questions, title, onBack, onComplete }) {
       <div style={S.inner}>
         <div style={{ textAlign: "center", padding: "60px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{pct >= 60 ? "🎉" : "📚"}</div>
-          <h2 style={{ ...S.h1, marginBottom: 8 }}>Session Complete</h2>
+          <h2 style={{ ...S.h1, fontSize: isMobile ? 22 : undefined, marginBottom: 8 }}>Session Complete</h2>
           <div style={{ color: S.p.textMuted, marginBottom: 32 }}>{title}</div>
           <div style={{ fontSize: 48, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: pct >= 60 ? "#10B981" : "#EF4444", marginBottom: 8 }}>
             {finalScore}/{total}

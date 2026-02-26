@@ -52,7 +52,7 @@ function InfoBlock({ title, items, EX }) {
   );
 }
 
-function PhaseSection({ phase, EX }) {
+function PhaseSection({ phase, EX, isMobile }) {
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 16, paddingBottom: 10, borderBottom: `1px solid ${EX.grayBorder}`, flexWrap: "wrap" }}>
@@ -71,7 +71,7 @@ function PhaseSection({ phase, EX }) {
       )}
 
       {phase.infoBlocks && (
-        <div style={{ display: "grid", gridTemplateColumns: phase.infoBlocks.length > 1 ? "1fr 1fr" : "1fr", gap: 12, marginBottom: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : (phase.infoBlocks.length > 1 ? "1fr 1fr" : "1fr"), gap: 12, marginBottom: 16 }}>
           {phase.infoBlocks.map((b, i) => <InfoBlock key={i} title={b.title} items={b.items} EX={EX} />)}
         </div>
       )}
@@ -88,14 +88,14 @@ function PhaseSection({ phase, EX }) {
 }
 
 export default function StudyPlan({ onBack }) {
-  const { S, theme } = useStyles();
+  const { S, theme, isMobile } = useStyles();
   const EX = getEX(theme);
   const [track, setTrack] = useState("sprint");
   const plan = track === "sprint" ? STUDY_PLANS.sprint : STUDY_PLANS.intensive;
   const exam = STUDY_PLANS.examOverview;
 
   return (
-    <div style={{ maxWidth: 880, margin: "0 auto", padding: "32px 24px 64px" }}>
+    <div style={{ maxWidth: 880, margin: "0 auto", padding: isMobile ? "20px 12px 48px" : "32px 24px 64px" }}>
       {/* Back */}
       <button onClick={onBack} style={{ background: "none", border: `1px solid ${EX.grayBorder}`, color: EX.muted, padding: "6px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13, marginBottom: 24 }}>
         ← Back to Home
@@ -106,7 +106,7 @@ export default function StudyPlan({ onBack }) {
         <div style={{ display: "inline-block", fontFamily: "monospace", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", background: EX.orangeLight, color: EX.orange, padding: "4px 10px", marginBottom: 12, border: `1px solid ${EX.orangeBorder}` }}>
           Telc · Goethe · ÖSD Compatible
         </div>
-        <h1 style={{ fontSize: 32, fontWeight: 700, color: EX.white, marginBottom: 8, fontFamily: "'Playfair Display', serif" }}>
+        <h1 style={{ fontSize: isMobile ? 22 : 32, fontWeight: 700, color: EX.white, marginBottom: 8, fontFamily: "'Playfair Display', serif" }}>
           German B1 Study Plan
         </h1>
         <p style={{ color: EX.muted, fontSize: 15, lineHeight: 1.6, maxWidth: 560 }}>
@@ -115,9 +115,9 @@ export default function StudyPlan({ onBack }) {
       </div>
 
       {/* Exam Structure */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)", gap: 0, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
         {exam.sections.map((s, i) => (
-          <div key={i} style={{ padding: "16px 14px", borderRight: i < 3 ? `1px solid ${EX.grayBorder}` : "none", background: EX.gray }}>
+          <div key={i} style={{ padding: "16px 14px", borderRight: isMobile ? (i % 2 === 0 ? `1px solid ${EX.grayBorder}` : "none") : (i < 3 ? `1px solid ${EX.grayBorder}` : "none"), borderBottom: isMobile && i < 2 ? `1px solid ${EX.grayBorder}` : "none", background: EX.gray }}>
             <div style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: EX.muted, marginBottom: 4 }}>Section {String(i + 1).padStart(2, "0")}</div>
             <div style={{ fontWeight: 600, fontSize: 14, color: EX.white, marginBottom: 2 }}>{s.name}</div>
             <div style={{ fontSize: 12, color: EX.muted }}>{s.label} · {s.duration}</div>
@@ -158,20 +158,20 @@ export default function StudyPlan({ onBack }) {
       </div>
 
       {/* Overview Ribbon */}
-      <div style={{ display: "flex", gap: 0, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
+      <div style={{ display: "flex", gap: 0, border: `1px solid ${EX.grayBorder}`, borderRadius: 10, overflow: "hidden", marginBottom: 32, flexDirection: isMobile ? "column" : "row" }}>
         {track === "sprint" ? (
           <>
-            <RibbonItem label="Duration" value={plan.duration} sub="3 focused phases" EX={EX} />
-            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Escalating week to week" EX={EX} />
-            <RibbonItem label="Target Score" value={plan.targetScore} sub={plan.targetPoints} EX={EX} />
-            <RibbonItem label="Minimum Pass" value={plan.minimumPass} sub={plan.passNote} last EX={EX} />
+            <RibbonItem label="Duration" value={plan.duration} sub="3 focused phases" EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Escalating week to week" EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Target Score" value={plan.targetScore} sub={plan.targetPoints} EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Minimum Pass" value={plan.minimumPass} sub={plan.passNote} last EX={EX} isMobile={isMobile} />
           </>
         ) : (
           <>
-            <RibbonItem label="Duration" value={plan.duration} sub="4 progressive phases" EX={EX} />
-            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Full-time commitment" EX={EX} />
-            <RibbonItem label="Total Hours" value={plan.totalHours} sub={plan.totalHoursRange} EX={EX} />
-            <RibbonItem label="Vocab Target" value={plan.vocabTarget} sub={plan.vocabNote} last EX={EX} />
+            <RibbonItem label="Duration" value={plan.duration} sub="4 progressive phases" EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Daily Hours" value={plan.dailyHours} sub="Full-time commitment" EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Total Hours" value={plan.totalHours} sub={plan.totalHoursRange} EX={EX} isMobile={isMobile} />
+            <RibbonItem label="Vocab Target" value={plan.vocabTarget} sub={plan.vocabNote} last EX={EX} isMobile={isMobile} />
           </>
         )}
       </div>
@@ -195,7 +195,7 @@ export default function StudyPlan({ onBack }) {
             <span style={{ fontSize: 20, fontWeight: 600, color: EX.white }}>Standard Day Structure</span>
             <span style={{ fontSize: 13, color: EX.muted, fontStyle: "italic" }}>Applies across all 8 weeks</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12 }}>
             <ScheduleBlock title={plan.dailyTemplate.morning.title} rows={plan.dailyTemplate.morning.rows} EX={EX} />
             <ScheduleBlock title={plan.dailyTemplate.afternoon.title} rows={plan.dailyTemplate.afternoon.rows} EX={EX} />
           </div>
@@ -204,7 +204,7 @@ export default function StudyPlan({ onBack }) {
 
       {/* Phases */}
       {plan.phases.map((phase, i) => (
-        <PhaseSection key={i} phase={phase} EX={EX} />
+        <PhaseSection key={i} phase={phase} EX={EX} isMobile={isMobile} />
       ))}
 
       {/* Scoring (sprint only) */}
@@ -221,9 +221,9 @@ export default function StudyPlan({ onBack }) {
   );
 }
 
-function RibbonItem({ label, value, sub, last, EX }) {
+function RibbonItem({ label, value, sub, last, EX, isMobile }) {
   return (
-    <div style={{ flex: 1, padding: "14px 16px", borderRight: last ? "none" : `1px solid ${EX.grayBorder}`, background: EX.gray }}>
+    <div style={{ flex: 1, padding: "14px 16px", borderRight: isMobile ? "none" : (last ? "none" : `1px solid ${EX.grayBorder}`), borderBottom: isMobile && !last ? `1px solid ${EX.grayBorder}` : "none", background: EX.gray }}>
       <div style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: EX.muted, marginBottom: 4 }}>{label}</div>
       <div style={{ fontSize: 20, fontWeight: 700, color: EX.white }}>{value}</div>
       {sub && <div style={{ fontSize: 12, color: EX.muted, marginTop: 2 }}>{sub}</div>}

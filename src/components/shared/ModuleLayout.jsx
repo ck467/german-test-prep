@@ -4,13 +4,13 @@ import ThemeToggle from "./ThemeToggle.jsx";
 
 export default function ModuleLayout({ nav, children }) {
   const navigate = useNavigate();
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
 
   return (
     <div style={S.root}>
-      <header style={S.header}>
+      <header style={{ ...S.header, padding: isMobile ? "0 12px" : "0 32px" }}>
         <div style={S.logo} onClick={() => navigate("/")}>German Citizenship Prep</div>
-        {nav && <nav style={S.nav}>{nav}<ThemeToggle /></nav>}
+        {nav && <nav style={{ ...S.nav, flexWrap: isMobile ? "wrap" : undefined }}>{nav}<ThemeToggle /></nav>}
         {!nav && <ThemeToggle />}
       </header>
       {children}

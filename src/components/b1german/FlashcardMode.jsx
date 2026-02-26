@@ -3,7 +3,7 @@ import useStyles from "../../useStyles.js";
 import ProgressBar from "../shared/ProgressBar.jsx";
 
 export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useState({});
@@ -50,6 +50,9 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
     }
   };
 
+  const cardMinH = isMobile ? 180 : 260;
+  const cardPad = isMobile ? 20 : 40;
+
   return (
     <div style={S.inner}>
       {/* Header */}
@@ -86,17 +89,17 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
         <div style={{
           position: "relative",
           width: "100%",
-          minHeight: 260,
+          minHeight: cardMinH,
           transition: "transform 0.5s",
           transformStyle: "preserve-3d",
           transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}>
           {/* Front */}
           <div style={{
-            ...S.card({ padding: 40 }),
+            ...S.card({ padding: cardPad }),
             position: "absolute",
             width: "100%",
-            minHeight: 260,
+            minHeight: cardMinH,
             backfaceVisibility: "hidden",
             display: "flex",
             flexDirection: "column",
@@ -106,7 +109,7 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
             borderColor: "rgba(245,200,66,0.3)",
           }}>
             <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>German</div>
-            <div style={{ fontSize: 32, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: S.p.headingText, textAlign: "center" }}>
+            <div style={{ fontSize: isMobile ? 24 : 32, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: S.p.headingText, textAlign: "center" }}>
               {card.de}
             </div>
             <div style={{ fontSize: 13, color: S.p.textMuted, marginTop: 20 }}>Tap to flip</div>
@@ -114,10 +117,10 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
 
           {/* Back */}
           <div style={{
-            ...S.card({ padding: 40 }),
+            ...S.card({ padding: cardPad }),
             position: "absolute",
             width: "100%",
-            minHeight: 260,
+            minHeight: cardMinH,
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
             display: "flex",
@@ -128,12 +131,12 @@ export default function FlashcardMode({ topic, onBack, onStartQuiz }) {
             borderColor: "rgba(96,165,250,0.3)",
           }}>
             <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>English</div>
-            <div style={{ fontSize: 28, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#60A5FA", textAlign: "center", marginBottom: 16 }}>
+            <div style={{ fontSize: isMobile ? 22 : 28, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#60A5FA", textAlign: "center", marginBottom: 16 }}>
               {card.en}
             </div>
             <div style={{ background: S.p.exampleBg, borderRadius: 8, padding: "10px 16px", maxWidth: 400 }}>
               <div style={{ fontSize: 13, color: S.p.textMuted, marginBottom: 4 }}>Example:</div>
-              <div style={{ fontSize: 15, color: S.p.textMuted, fontStyle: "italic", lineHeight: 1.5 }}>{card.example}</div>
+              <div style={{ fontSize: isMobile ? 13 : 15, color: S.p.textMuted, fontStyle: "italic", lineHeight: 1.5 }}>{card.example}</div>
             </div>
           </div>
         </div>

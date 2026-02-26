@@ -55,7 +55,7 @@ export default function B1HomeScreen({
   onSelectVocabulary,
   exams = [],
 }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const totalWords = B1_TOPICS.reduce((sum, t) => sum + t.cards.length, 0);
 
   const handlers = {
@@ -66,8 +66,8 @@ export default function B1HomeScreen({
   };
 
   return (
-    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: "24px 24px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
         {MODULE_CARDS.map((card) => (
           <div
             key={card.key}

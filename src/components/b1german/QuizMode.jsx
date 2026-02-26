@@ -14,7 +14,7 @@ function shuffle(arr) {
 }
 
 export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const allCards = useMemo(() => B1_TOPICS.flatMap(t => t.cards), []);
 
   const isGeneral = topic.id === "general";
@@ -62,7 +62,7 @@ export default function QuizMode({ topic, onBack, onBackToFlashcards }) {
       <div style={S.inner}>
         <div style={{ textAlign: "center", padding: "60px 0" }}>
           <div style={{ fontSize: 64, marginBottom: 20 }}>{pct >= 70 ? "🎉" : "📚"}</div>
-          <h2 style={{ ...S.h1, marginBottom: 8 }}>Quiz Complete</h2>
+          <h2 style={{ ...S.h1, fontSize: isMobile ? 22 : undefined, marginBottom: 8 }}>Quiz Complete</h2>
           <div style={{ color: S.p.textMuted, marginBottom: 32 }}>{topic.icon} {topic.name}</div>
           <div style={{ fontSize: 48, fontFamily: "'Playfair Display', serif", fontWeight: 700, color: pct >= 70 ? "#10B981" : "#F59E0B", marginBottom: 8 }}>
             {score}/{questions.length}

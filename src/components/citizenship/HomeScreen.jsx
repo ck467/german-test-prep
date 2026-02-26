@@ -2,16 +2,16 @@ import useStyles from "../../useStyles.js";
 import { STATES } from "../../data/citizenshipQuestions.js";
 
 export default function HomeScreen({ onMode, selectedState, setSelectedState, stats }) {
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
   const stateStats = stats.state?.[selectedState];
   const generalStats = stats.general;
 
   return (
-    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: "24px 24px" }}>
+    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
           <span style={{ fontSize: 24 }}>🇩🇪</span>
-          <h1 style={{ ...S.h1, fontSize: 28 }}>German Citizenship Test</h1>
+          <h1 style={{ ...S.h1, fontSize: isMobile ? 22 : 28 }}>German Citizenship Test</h1>
         </div>
         <p style={{ color: S.p.textMuted, fontSize: 14, margin: 0 }}>
           Full exam prep · 300 general questions · 160 state-specific questions (10 per federal state)
@@ -33,7 +33,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
       </div>
 
       {/* Mode Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 14, marginBottom: 16 }}>
         {[
           {
             icon: "📚", label: "Practice All", desc: "300 general questions", sub: "With instant feedback", mode: "practiceGeneral",
@@ -66,7 +66,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
 
       {/* Info Box */}
       <div style={{ ...S.card({ padding: 16 }), borderColor: "rgba(245,200,66,0.2)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, textAlign: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr 1fr", gap: 16, textAlign: "center" }}>
           {[
             { n: "300", l: "General Questions" },
             { n: "160", l: "State Questions (16 × 10)" },

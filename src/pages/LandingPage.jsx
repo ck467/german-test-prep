@@ -5,30 +5,30 @@ import { MODULES } from "../data/modules.js";
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const { S } = useStyles();
+  const { S, isMobile } = useStyles();
 
   return (
     <div style={S.root}>
-      <header style={S.header}>
+      <header style={{ ...S.header, padding: isMobile ? "0 12px" : "0 32px" }}>
         <div style={S.logo}>German Citizenship Prep</div>
         <ThemeToggle />
       </header>
 
-      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px", minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: isMobile ? "0 12px" : "0 24px", minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box" }}>
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h1 style={{ ...S.h1, fontSize: 36, marginBottom: 8 }}>German Citizenship Prep</h1>
+          <h1 style={{ ...S.h1, fontSize: isMobile ? 24 : 36, marginBottom: 8 }}>German Citizenship Prep</h1>
           <p style={{ color: S.p.textMuted, fontSize: 16, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
             Your free study companion for the German citizenship journey — from language prep to the Einb&#252;rgerungstest.
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
           {MODULES.map((mod) => (
             <div
               key={mod.id}
               onClick={() => navigate(mod.route)}
               style={{
-                ...S.card({ padding: "32px 32px" }),
+                ...S.card({ padding: isMobile ? "20px 16px" : "32px 32px" }),
                 cursor: "pointer",
                 transition: "all 0.25s",
                 textAlign: "center",
@@ -41,7 +41,7 @@ export default function LandingPage() {
               onMouseLeave={e => { e.currentTarget.style.borderColor = mod.accent.border; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
             >
               <div style={{ fontSize: 48, marginBottom: 16 }}>{mod.icon}</div>
-              <h2 style={{ ...S.h2, fontSize: 24, marginBottom: 8 }}>{mod.title}</h2>
+              <h2 style={{ ...S.h2, fontSize: isMobile ? 18 : 24, marginBottom: 8 }}>{mod.title}</h2>
               <p style={{ color: S.p.textMuted, fontSize: 15, lineHeight: 1.5, marginBottom: 16, flex: 1 }}>
                 {mod.description}
               </p>
@@ -62,7 +62,7 @@ export default function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: 16 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: S.p.textMuted }}>Coming Soon</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 16 }}>
             {[
               { icon: "\uD83D\uDCDD", title: "Full Mock Exams", desc: "Complete timed Goethe & telc B1 practice exams with all sections — Lesen, H\u00F6ren, Schreiben, Sprechen", color: "#A855F7", border: "rgba(168,85,247,0.12)" },
               { icon: "\uD83D\uDCC4", title: "Document Checklist", desc: "Sample forms, required documents, and templates you need for your Einb\u00FCrgerung application", color: "#F59E0B", border: "rgba(245,158,11,0.12)" },

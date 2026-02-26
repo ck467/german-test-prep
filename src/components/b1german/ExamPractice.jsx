@@ -201,7 +201,7 @@ const adAccents = [
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════
 export default function ExamPractice({ exam, onBack }) {
-  const { S, theme } = useStyles();
+  const { S, theme, isMobile } = useStyles();
   const EX = getEX(theme);
   const [sectionIdx, setSectionIdx] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -375,12 +375,12 @@ export default function ExamPractice({ exam, onBack }) {
       />
 
       {/* Render by type */}
-      {section.type === "trueFalse" && renderTrueFalse(section, answers, setAnswer, submitted, EX)}
-      {section.type === "multipleChoice" && renderMC(section, answers, setAnswer, submitted, EX)}
-      {section.type === "matching" && renderMatching(section, answers, setAnswer, submitted, EX)}
-      {section.type === "opinion" && renderOpinion(section, answers, setAnswer, submitted, EX)}
-      {section.type === "cloze" && renderCloze(section, answers, setAnswer, submitted, EX)}
-      {section.type === "wordBankCloze" && renderWordBank(section, answers, setAnswer, submitted, EX)}
+      {section.type === "trueFalse" && renderTrueFalse(section, answers, setAnswer, submitted, EX, isMobile)}
+      {section.type === "multipleChoice" && renderMC(section, answers, setAnswer, submitted, EX, isMobile)}
+      {section.type === "matching" && renderMatching(section, answers, setAnswer, submitted, EX, isMobile)}
+      {section.type === "opinion" && renderOpinion(section, answers, setAnswer, submitted, EX, isMobile)}
+      {section.type === "cloze" && renderCloze(section, answers, setAnswer, submitted, EX, isMobile)}
+      {section.type === "wordBankCloze" && renderWordBank(section, answers, setAnswer, submitted, EX, isMobile)}
 
       {/* Submit / Reset */}
       <div style={{ marginTop: 32, display: "flex", gap: 12 }}>
@@ -409,7 +409,7 @@ export default function ExamPractice({ exam, onBack }) {
 // ═══════════════════════════════════════════════════════
 
 // ── True/False (Richtig/Falsch) — exam table layout ──
-function renderTrueFalse(section, answers, setAnswer, submitted, EX) {
+function renderTrueFalse(section, answers, setAnswer, submitted, EX, isMobile) {
   let blogTitle = null;
   let blogSubtitle = null;
   let passageBody = section.passage || "";
@@ -471,7 +471,7 @@ function renderTrueFalse(section, answers, setAnswer, submitted, EX) {
 
 
 // ── Multiple Choice — newspaper article + questions ──
-function renderMC(section, answers, setAnswer, submitted, EX) {
+function renderMC(section, answers, setAnswer, submitted, EX, isMobile) {
   return (
     <>
       {(section.articles || []).map((article, ai) => (
@@ -484,7 +484,7 @@ function renderMC(section, answers, setAnswer, submitted, EX) {
               source={article.source}
               EX={EX}
             >
-              <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line", columnCount: article.passage.length > 600 ? 2 : 1, columnGap: 28 }}>
+              <p style={{ color: EX.passageText, fontSize: 14, lineHeight: 1.85, margin: 0, whiteSpace: "pre-line", columnCount: isMobile ? 1 : (article.passage.length > 600 ? 2 : 1), columnGap: 28 }}>
                 {article.passage}
               </p>
             </PassageBox>
@@ -536,7 +536,7 @@ function parseAdText(text) {
   return { heading: "", body: text };
 }
 
-function renderMatching(section, answers, setAnswer, submitted, EX) {
+function renderMatching(section, answers, setAnswer, submitted, EX, isMobile) {
   const optionLabels = section.options.map((o) => o.label);
   const noMatch = section.noMatchLabel || "0";
   const allLabels = [...optionLabels, noMatch].filter((v, i, a) => a.indexOf(v) === i);
@@ -549,7 +549,7 @@ function renderMatching(section, answers, setAnswer, submitted, EX) {
       {isAdStyle ? (
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(280px, 1fr))",
           gap: 14,
           marginBottom: 28,
         }}>
@@ -692,7 +692,7 @@ function renderMatching(section, answers, setAnswer, submitted, EX) {
 
 
 // ── Opinion (Ja/Nein) — Leserbriefe newspaper style ──
-function renderOpinion(section, answers, setAnswer, submitted, EX) {
+function renderOpinion(section, answers, setAnswer, submitted, EX, isMobile) {
   return (
     <>
       {/* LESERBRIEFE newspaper header */}
@@ -716,7 +716,7 @@ function renderOpinion(section, answers, setAnswer, submitted, EX) {
       </div>
 
       {/* Person grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fill, minmax(${isMobile ? "130px" : "160px"}, 1fr))`, gap: 8, marginBottom: 24 }}>
         {section.opinions.map((op) => (
           <div key={op.id + "-badge"} style={{
             background: EX.grayLight,
@@ -769,7 +769,7 @@ function renderOpinion(section, answers, setAnswer, submitted, EX) {
 
 
 // ── Cloze (grammar) — letter-style passage + inline blanks ──
-function renderCloze(section, answers, setAnswer, submitted, EX) {
+function renderCloze(section, answers, setAnswer, submitted, EX, isMobile) {
   const renderPassage = () => {
     const parts = section.passage.split(/\[(\d+)\]/g);
     return parts.map((part, i) => {
@@ -841,7 +841,7 @@ function renderCloze(section, answers, setAnswer, submitted, EX) {
 
 
 // ── Word Bank Cloze — passage with drag-style word bank ──
-function renderWordBank(section, answers, setAnswer, submitted, EX) {
+function renderWordBank(section, answers, setAnswer, submitted, EX, isMobile) {
   const usedLetters = Object.values(answers);
 
   const renderPassage = () => {
