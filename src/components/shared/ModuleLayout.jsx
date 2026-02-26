@@ -9,7 +9,7 @@ export default function ModuleLayout({ nav, children }) {
   return (
     <div style={S.root}>
       <header style={S.header}>
-        <div style={S.logo} onClick={() => navigate("/")}>German Test Prep</div>
+        <div style={S.logo} onClick={() => navigate("/")}>German Citizenship Prep</div>
         {nav && <nav style={S.nav}>{nav}<ThemeToggle /></nav>}
         {!nav && <ThemeToggle />}
       </header>

@@ -10,15 +10,15 @@ export default function LandingPage() {
   return (
     <div style={S.root}>
       <header style={S.header}>
-        <div style={S.logo}>German Test Prep</div>
+        <div style={S.logo}>German Citizenship Prep</div>
         <ThemeToggle />
       </header>
 
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px", minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box" }}>
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h1 style={{ ...S.h1, fontSize: 36, marginBottom: 8 }}>German Test Prep</h1>
-          <p style={{ color: S.p.textMuted, fontSize: 16, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
-            Everything you need to prepare for life in Germany. Choose your path below.
+          <h1 style={{ ...S.h1, fontSize: 36, marginBottom: 8 }}>German Citizenship Prep</h1>
+          <p style={{ color: S.p.textMuted, fontSize: 16, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+            Your free study companion for the German citizenship journey — from language prep to the Einb&#252;rgerungstest.
           </p>
         </div>
 
