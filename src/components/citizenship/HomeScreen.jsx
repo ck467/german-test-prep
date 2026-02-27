@@ -7,7 +7,7 @@ export default function HomeScreen({ onMode, selectedState, setSelectedState, st
   const generalStats = stats.general;
 
   return (
-    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
+    <div style={{ ...S.inner, minHeight: isMobile ? undefined : "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: isMobile ? undefined : "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
           <span style={{ fontSize: 24 }}>🇩🇪</span>

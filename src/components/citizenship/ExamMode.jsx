@@ -148,7 +148,7 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
   return (
     <div style={S.root}>
       {/* Sticky exam header */}
-      <div style={{ position: "sticky", top: 0, zIndex: 50, background: S.p.rootBg, borderBottom: `1px solid ${S.p.border08}`, padding: isMobile ? "10px 12px" : "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 8 : 0 }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 50, background: S.p.rootBg, borderBottom: `1px solid ${S.p.border08}`, padding: isMobile ? "10px 12px" : "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 6 : 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span style={{ color: S.p.textMuted, fontSize: 13 }}>Practice Exam · {stateName}</span>
           <span style={{ background: S.p.ghostBtnBg, borderRadius: 6, padding: "4px 10px", fontSize: 13 }}>{answered}/33 answered</span>

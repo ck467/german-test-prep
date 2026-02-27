@@ -9,7 +9,7 @@ export default function LandingPage() {
 
   return (
     <div style={S.root}>
-      <header style={{ ...S.header, padding: isMobile ? "0 12px" : "0 32px" }}>
+      <header style={{ ...S.header, padding: isMobile ? "8px 12px" : "0 32px" }}>
         <div style={S.logo}>German Citizenship Prep</div>
         <ThemeToggle />
       </header>

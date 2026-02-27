@@ -66,7 +66,7 @@ export default function B1HomeScreen({
   };
 
   return (
-    <div style={{ ...S.inner, minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
+    <div style={{ ...S.inner, minHeight: isMobile ? undefined : "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: isMobile ? undefined : "center", boxSizing: "border-box", padding: isMobile ? "16px 12px" : "24px 24px" }}>
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
         {MODULE_CARDS.map((card) => (
           <div

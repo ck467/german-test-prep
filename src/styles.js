@@ -47,10 +47,10 @@ export function getStyles(theme) {
   return {
     p,
     root: { background: p.rootBg, minHeight: "100vh", fontFamily: "'Source Sans 3', 'Segoe UI', sans-serif", color: p.bodyText },
-    header: { background: p.headerBg, borderBottom: `1px solid ${p.border07}`, padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(12px)" },
+    header: { background: p.rootBg, borderBottom: `1px solid ${p.border07}`, padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 60, position: "sticky", top: 0, zIndex: 100 },
     logo: { fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, fontWeight: 700, color: "#F5C842", cursor: "pointer", letterSpacing: 0.5 },
     nav: { display: "flex", gap: 4, alignItems: "center" },
-    navBtn: (active) => ({ background: active ? "rgba(245,200,66,0.12)" : "transparent", color: active ? "#F5C842" : p.textMuted, border: active ? "1px solid rgba(245,200,66,0.25)" : "1px solid transparent", borderRadius: 6, padding: "6px 14px", cursor: "pointer", fontSize: 13, fontWeight: active ? 600 : 400, transition: "all 0.15s" }),
+    navBtn: (active) => ({ background: active ? "rgba(245,200,66,0.12)" : "transparent", color: active ? "#F5C842" : p.textMuted, border: active ? "1px solid rgba(245,200,66,0.25)" : "1px solid transparent", borderRadius: 6, padding: "5px 10px", cursor: "pointer", fontSize: 13, fontWeight: active ? 600 : 400, transition: "all 0.15s", whiteSpace: "nowrap" }),
     inner: { maxWidth: 880, margin: "0 auto", padding: "32px 24px" },
     h1: { fontFamily: "'Playfair Display', Georgia, serif", fontSize: 32, fontWeight: 700, color: p.headingText, marginBottom: 8, lineHeight: 1.2 },
     h2: { fontFamily: "'Playfair Display', Georgia, serif", fontSize: 22, fontWeight: 600, color: p.headingText, marginBottom: 16 },

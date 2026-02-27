@@ -8,9 +8,19 @@ export default function ModuleLayout({ nav, children }) {
 
   return (
     <div style={S.root}>
-      <header style={{ ...S.header, padding: isMobile ? "0 12px" : "0 32px" }}>
-        <div style={S.logo} onClick={() => navigate("/")}>German Citizenship Prep</div>
-        {nav && <nav style={{ ...S.nav, flexWrap: isMobile ? "wrap" : undefined }}>{nav}<ThemeToggle /></nav>}
+      <header style={{
+        ...S.header,
+        padding: isMobile ? "8px 12px" : "0 32px",
+        flexWrap: isMobile ? "wrap" : undefined,
+        gap: isMobile ? 8 : 0,
+      }}>
+        <div style={{ ...S.logo, fontSize: isMobile ? 15 : 18 }} onClick={() => navigate("/")}>German Citizenship Prep</div>
+        {nav && (
+          <nav style={{ ...S.nav, flexWrap: "wrap", gap: isMobile ? 4 : 4 }}>
+            {nav}
+            <ThemeToggle />
+          </nav>
+        )}
         {!nav && <ThemeToggle />}
       </header>
       {children}
