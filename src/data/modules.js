@@ -39,4 +39,24 @@ export const MODULES = [
       btnColor: "#0B0D14",
     },
   },
+  {
+    id: "eligibility",
+    route: "/eligibility",
+    title: "Eligibility Check",
+    icon: "✅",
+    description:
+      "Answer 10 questions to check if you meet the residency, language, and legal requirements for German citizenship.",
+    tags: ["10 Requirements", "Self-Assessment", "Instant Results"],
+    cta: "Check Now",
+    accent: {
+      text: "#10B981",
+      border: "rgba(16,185,129,0.15)",
+      borderHover: "rgba(16,185,129,0.5)",
+      shadow: "rgba(16,185,129,0.1)",
+      tagBg: "rgba(16,185,129,0.1)",
+      tagBorder: "rgba(16,185,129,0.2)",
+      btnBg: "#10B981",
+      btnColor: "#0B0D14",
+    },
+  },
 ];

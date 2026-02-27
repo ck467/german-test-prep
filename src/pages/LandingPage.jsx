@@ -22,7 +22,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 24 }}>
           {MODULES.map((mod) => (
             <div
               key={mod.id}
@@ -62,11 +62,10 @@ export default function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: 16 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: S.p.textMuted }}>Coming Soon</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
             {[
               { icon: "\uD83D\uDCDD", title: "Full Mock Exams", desc: "Complete timed Goethe & telc B1 practice exams with all sections — Lesen, H\u00F6ren, Schreiben, Sprechen", color: "#A855F7", border: "rgba(168,85,247,0.12)" },
               { icon: "\uD83D\uDCC4", title: "Document Checklist", desc: "Sample forms, required documents, and templates you need for your Einb\u00FCrgerung application", color: "#F59E0B", border: "rgba(245,158,11,0.12)" },
-              { icon: "\u2705", title: "Eligibility Check", desc: "Answer a few questions to see if you meet the residency, income, and language requirements", color: "#10B981", border: "rgba(16,185,129,0.12)" },
             ].map((t) => (
               <div
                 key={t.title}
