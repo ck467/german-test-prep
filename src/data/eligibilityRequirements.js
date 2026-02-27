@@ -127,7 +127,7 @@ export const DISCRETIONARY_NOTES = {
   ],
 };
 
-export const QUICK_CHECK_URL = "https://www.einbuergerung.de/schnellcheck";
+export const QUICK_CHECK_URL = "https://www.einbuergerung.de/fragebogen.php";
 
 export const SOURCE_URL = "https://www.einbuergerung.de/fragebogen.php?l=en";
 export const SOURCE_LABEL = "Federal Government Commissioner for Migration, Refugees and Integration";
