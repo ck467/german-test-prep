@@ -22,7 +22,7 @@ export default function EligibilityModule() {
   };
 
   return (
-    <ModuleLayout
+    <ModuleLayout title="German Citizenship Eligibility Check" description="Check if you qualify for German citizenship. Free 10-question assessment covering residency, language, and legal requirements."
       nav={
         <>
           <button

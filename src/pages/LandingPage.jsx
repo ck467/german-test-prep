@@ -9,6 +9,8 @@ export default function LandingPage() {
 
   return (
     <div style={S.root}>
+      <title>German Citizenship Prep — Free Study Tools</title>
+      <meta name="description" content="Free study tools for the German citizenship journey — Einbürgerungstest practice, B1 German exam prep, and eligibility checker." />
       <header style={{ ...S.header, padding: isMobile ? "8px 12px" : "0 32px" }}>
         <div style={S.logo}>German Citizenship Prep</div>
         <ThemeToggle />

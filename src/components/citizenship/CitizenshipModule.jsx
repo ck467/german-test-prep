@@ -23,7 +23,7 @@ export default function CitizenshipModule() {
   };
 
   return (
-    <ModuleLayout nav={
+    <ModuleLayout title="Einbürgerungstest Practice — 300+ Questions" description="Practice all 300 general + 160 state-specific questions for the German citizenship test (Einbürgerungstest). Free online quiz with progress tracking." nav={
       <>
         <button style={S.navBtn(mode === "home")} onClick={() => setMode("home")}>Home</button>
         <button style={S.navBtn(mode === "practiceGeneral")} onClick={() => setMode("practiceGeneral")}>{isMobile ? "General" : "General Questions"}</button>

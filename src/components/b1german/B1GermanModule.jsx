@@ -64,7 +64,7 @@ export default function B1GermanModule() {
   };
 
   return (
-    <ModuleLayout nav={
+    <ModuleLayout title="B1 German Exam Prep — Vocabulary & Practice Tests" description="Prepare for the Goethe or telc B1 German exam with 3,000+ vocabulary flashcards, quizzes, official mock tests, and study plans." nav={
       <>
         <button style={S.navBtn(screen === "home")} onClick={handleBackToHome}>Home</button>
         {screen === "examselect" && (

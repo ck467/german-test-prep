@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom";
 import useStyles from "../../useStyles.js";
 import ThemeToggle from "./ThemeToggle.jsx";
 
-export default function ModuleLayout({ nav, children }) {
+export default function ModuleLayout({ nav, children, title, description }) {
   const navigate = useNavigate();
   const { S, isMobile } = useStyles();
 
   return (
     <div style={S.root}>
+      {title && <title>{title}</title>}
+      {description && <meta name="description" content={description} />}
       <header style={{
         ...S.header,
         padding: isMobile ? "8px 12px" : "0 32px",
