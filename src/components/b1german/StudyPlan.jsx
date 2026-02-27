@@ -11,13 +11,21 @@ function ScheduleBlock({ title, rows, EX }) {
           {title}
         </div>
       )}
-      {rows.map((r, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "10px 16px", borderBottom: i < rows.length - 1 ? `1px solid ${EX.grayBorder}` : "none" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 12, color: EX.orange, minWidth: 60, flexShrink: 0 }}>{r.time}</span>
-          <span style={{ fontSize: 14, fontWeight: 500, color: EX.white, flex: 1 }}>{r.activity}</span>
-          <span style={{ fontSize: 12, color: EX.muted }}>{r.desc}</span>
-        </div>
-      ))}
+      {rows.map((r, i) => {
+        const isTip = r.type === "tip";
+        const isInfo = r.type === "info";
+        const isHeader = r.type === "header";
+        const rowBg = isTip ? "rgba(245,158,11,0.08)" : isInfo ? "rgba(96,165,250,0.08)" : "transparent";
+        const timeColor = isTip ? "#F59E0B" : isInfo ? "#60A5FA" : isHeader ? EX.muted : EX.orange;
+        const timeFontSize = isHeader ? 11 : 12;
+        return (
+          <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "10px 16px", borderBottom: i < rows.length - 1 ? `1px solid ${EX.grayBorder}` : "none", background: rowBg }}>
+            <span style={{ fontFamily: "monospace", fontSize: timeFontSize, color: timeColor, minWidth: 60, flexShrink: 0 }}>{r.time}</span>
+            <span style={{ fontSize: 14, fontWeight: isHeader ? 600 : 500, color: EX.white, flex: 1 }}>{r.activity}</span>
+            <span style={{ fontSize: 12, color: EX.muted }}>{r.desc}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -207,14 +215,16 @@ export default function StudyPlan({ onBack }) {
         <PhaseSection key={i} phase={phase} EX={EX} isMobile={isMobile} />
       ))}
 
-      {/* Scoring (sprint only) */}
-      {track === "sprint" && plan.scoring && (
+      {/* Scoring Sections (sprint only) */}
+      {track === "sprint" && plan.scoringSections && (
         <div style={{ marginBottom: 32 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 16, paddingBottom: 10, borderBottom: `1px solid ${EX.grayBorder}` }}>
             <span style={{ fontFamily: "monospace", fontSize: 11, color: EX.muted, letterSpacing: 1 }}>REFERENCE</span>
-            <span style={{ fontSize: 20, fontWeight: 600, color: EX.white }}>{plan.scoring.title}</span>
+            <span style={{ fontSize: 20, fontWeight: 600, color: EX.white }}>{plan.scoringSections.title}</span>
           </div>
-          <ScheduleBlock title={plan.scoring.subtitle} rows={plan.scoring.rows.map(r => ({ time: r.points, activity: r.name, desc: r.desc }))} EX={EX} />
+          {plan.scoringSections.sections.map((section, i) => (
+            <ScheduleBlock key={i} title={section.title} rows={section.rows} EX={EX} />
+          ))}
         </div>
       )}
     </div>

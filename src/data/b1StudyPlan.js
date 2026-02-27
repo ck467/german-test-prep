@@ -16,7 +16,7 @@ export const STUDY_PLANS = {
         subtitle: "Grammar + first mock exam",
         tag: "Days 1–6 · 2–3 hrs/day",
         schedule: [
-          { time: "60 min", activity: "Morning — Grammar Review", desc: "Structured topic per day" },
+          { time: "60 min", activity: "Morning — Grammar Review", desc: "Structured topic per day (see below)" },
           { time: "45 min", activity: "Afternoon — Reading Practice", desc: "1 Telc-style text with comprehension questions" },
           { time: "45 min", activity: "Evening — Listening + Vocabulary", desc: "Podcast / Deutsche Welle + 15 new words" },
         ],
@@ -71,14 +71,59 @@ export const STUDY_PLANS = {
         ],
       },
     ],
-    scoring: {
-      title: "Schreiben Scoring Breakdown",
-      subtitle: "Part 1 — Formal Letter (30 points)",
-      rows: [
-        { points: "10 pts", name: "Aufgabenbewältigung", desc: "All 4 bullet points addressed fully — most important criterion" },
-        { points: "8 pts", name: "Formale Richtigkeit", desc: "Grammar, word order, case usage, verb conjugation" },
-        { points: "7 pts", name: "Kommunikative Gestaltung", desc: "Structure, opening/closing, register, connectors" },
-        { points: "5 pts", name: "Wortschatz", desc: "Range and accuracy of vocabulary" },
+    scoringSections: {
+      title: "All Section Scoring Breakdowns",
+      sections: [
+        {
+          title: "Lesen — 75 points · 65 min · 5 parts",
+          rows: [
+            { time: "Teil 1", activity: "Global comprehension — 5 matching tasks", desc: "Match short headlines/descriptions to texts · 15 pts" },
+            { time: "Teil 2", activity: "Detailed comprehension — 5 multiple-choice questions", desc: "Read one longer text, choose a/b/c per question · 20 pts" },
+            { time: "Teil 3", activity: "Selective comprehension — 10 matching tasks", desc: "Match statements to people or situations described · 15 pts" },
+            { time: "Teil 4", activity: "True / False / Not in text", desc: "Short notices/ads + 10 statements · 15 pts" },
+            { time: "Teil 5", activity: "Gap-fill with word bank", desc: "Choose the best word/phrase for each gap in a text · 10 pts" },
+            { time: "Key tip", activity: "You don't need to understand every word", desc: "Skim for gist first, then scan for specific answers", type: "tip" },
+          ],
+        },
+        {
+          title: "Hören — 75 points · ~30 min · 4 parts · played twice",
+          rows: [
+            { time: "Teil 1", activity: "Global comprehension — 5 True/False statements", desc: "Listen to a dialogue or announcement · 15 pts" },
+            { time: "Teil 2", activity: "Detailed comprehension — 10 True/False statements", desc: "Longer radio programme or interview · 30 pts" },
+            { time: "Teil 3", activity: "Selective comprehension — 5 multiple-choice questions", desc: "Short monologues or dialogues, choose a/b/c · 15 pts" },
+            { time: "Teil 4", activity: "Selective comprehension — 5 matching tasks", desc: "Match speakers to topics or opinions · 15 pts" },
+            { time: "Key tip", activity: "Read questions BEFORE each recording starts", desc: "You get reading time between parts — use every second of it", type: "tip" },
+          ],
+        },
+        {
+          title: "Schreiben — 45 points · 30 min · 2 parts",
+          rows: [
+            { time: "PART 1", activity: "Formal / semi-formal letter — 30 pts", desc: "~150 words · respond to a scenario with 4 bullet points", type: "header" },
+            { time: "10 pts", activity: "Aufgabenbewältigung", desc: "All 4 bullet points addressed fully — most important criterion" },
+            { time: "8 pts", activity: "Formale Richtigkeit", desc: "Grammar, word order, case usage, verb conjugation" },
+            { time: "7 pts", activity: "Kommunikative Gestaltung", desc: "Structure, opening/closing, appropriate register, connectors" },
+            { time: "5 pts", activity: "Wortschatz", desc: "Range and accuracy of vocabulary" },
+            { time: "PART 2", activity: "Opinion / discussion text — 15 pts", desc: "~80 words · respond to a statement with your view + reasons", type: "header" },
+            { time: "5 pts", activity: "Aufgabenbewältigung", desc: "Clear position taken with relevant reasons given" },
+            { time: "5 pts", activity: "Formale Richtigkeit", desc: "Grammar and sentence structure" },
+            { time: "5 pts", activity: "Wortschatz & Gestaltung", desc: "Vocabulary range + logical flow using connectors" },
+            { time: "Key tip", activity: "Bullet points are worth more than grammar", desc: "A letter addressing all 4 points with some errors beats a grammatically perfect letter that misses a point", type: "tip" },
+          ],
+        },
+        {
+          title: "Sprechen — 75 points · ~15 min · 3 parts",
+          rows: [
+            { time: "PART 1", activity: "Getting to know each other — ~3 min", desc: "Answer questions about yourself: work, hobbies, family, plans", type: "header" },
+            { time: "PART 2", activity: "Discussing a topic — ~6 min", desc: "React to a statement or image · give opinion, ask questions, discuss", type: "header" },
+            { time: "PART 3", activity: "Planning together — ~6 min", desc: "Agree on a joint plan with your partner (event, activity, trip)", type: "header" },
+            { time: "SCORING", activity: "75 pts split across 3 criteria", desc: "Same criteria apply across all 3 parts", type: "header" },
+            { time: "25 pts", activity: "Ausdrucksfähigkeit (Expression)", desc: "Fluency, vocabulary range, ability to connect ideas · need 15/25 to pass" },
+            { time: "25 pts", activity: "Aufgabenbewältigung (Task completion)", desc: "Addresses all parts, stays on topic, interacts naturally · need 15/25 to pass" },
+            { time: "25 pts", activity: "Formale Richtigkeit (Accuracy)", desc: "Grammar, pronunciation, sentence structure · need 15/25 to pass" },
+            { time: "60% pass", activity: "Minimum 45/75 pts · target each criterion at \u226515/25", desc: "Errors are fine if meaning is clear — keep talking, don't freeze", type: "info" },
+            { time: "70% target", activity: "~53/75 pts · aim for 18/25 per criterion", desc: "Relatively fluent, address all points, good interaction with partner", type: "tip" },
+          ],
+        },
       ],
     },
   },
