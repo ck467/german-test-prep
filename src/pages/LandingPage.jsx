@@ -77,18 +77,62 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* What You Get — Teaser */}
-        <div style={{ marginTop: 48, textAlign: "center" }}>
-          <h2 style={{ ...S.h2, fontSize: isMobile ? 20 : 28, marginBottom: 8 }}>What You Get</h2>
-          <p style={{ color: S.p.textMuted, fontSize: 15, lineHeight: 1.5, margin: "0 auto 16px", maxWidth: 520 }}>
-            300+ test questions, 3,000+ flashcards, exam simulations, eligibility checks, and more — all free.
-          </p>
-          <span
-            onClick={() => navigate("/features")}
-            style={{ color: "#F5C842", fontSize: 15, fontWeight: 600, cursor: "pointer" }}
-          >
-            See All Features →
-          </span>
+        {/* What You Get — Feature Details */}
+        <div style={{ marginTop: 48 }}>
+          <h2 style={{ ...S.h2, fontSize: isMobile ? 20 : 28, textAlign: "center", marginBottom: 24 }}>What You Get</h2>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 20 }}>
+            {[
+              {
+                title: "Einb\u00FCrgerungstest Prep",
+                icon: "\uD83C\uDDE9\uD83C\uDDEA",
+                color: "#F5C842",
+                border: "rgba(245,200,66,0.15)",
+                items: [
+                  "300 official BAMF questions",
+                  "160 state-specific questions",
+                  "Timed exam simulation (33 questions, 60 min)",
+                  "English translations for every question",
+                  "Progress tracking across all categories",
+                ],
+              },
+              {
+                title: "B1 German Exam Prep",
+                icon: "\uD83D\uDCD6",
+                color: "#60A5FA",
+                border: "rgba(96,165,250,0.15)",
+                items: [
+                  "3,000+ vocabulary flashcards",
+                  "Goethe & telc B1 practice materials",
+                  "Structured study plans",
+                  "Grammar cheat sheets",
+                  "24 topic-based categories",
+                ],
+              },
+              {
+                title: "Eligibility Check",
+                icon: "\u2705",
+                color: "#10B981",
+                border: "rgba(16,185,129,0.15)",
+                items: [
+                  "10-question self-assessment",
+                  "Residency & income checks",
+                  "Language requirement verification",
+                  "Instant results with guidance",
+                  "Based on the Staatsangeh\u00F6rigkeitsgesetz (StAG)",
+                ],
+              },
+            ].map((feature) => (
+              <div key={feature.title} style={{ ...S.card({ padding: isMobile ? "20px 16px" : "24px 24px" }), borderColor: feature.border }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>{feature.icon}</div>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? 16 : 18, fontWeight: 600, color: feature.color, marginTop: 0, marginBottom: 12 }}>{feature.title}</h3>
+                <ul style={{ margin: 0, paddingLeft: 18, listStyle: "disc" }}>
+                  {feature.items.map((item) => (
+                    <li key={item} style={{ color: S.p.textMuted, fontSize: 14, lineHeight: 1.7 }}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Your Path to German Citizenship — Journey Steps */}

@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
-import FeaturesPage from "./pages/FeaturesPage.jsx";
 import CitizenshipModule from "./components/citizenship/CitizenshipModule.jsx";
 import B1GermanModule from "./components/b1german/B1GermanModule.jsx";
 import EligibilityModule from "./components/eligibility/EligibilityModule.jsx";
@@ -16,7 +15,6 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/features" element={<FeaturesPage />} />
       {MODULES.map((mod) => {
         const Component = MODULE_COMPONENTS[mod.id];
         return <Route key={mod.id} path={mod.route} element={<Component />} />;
