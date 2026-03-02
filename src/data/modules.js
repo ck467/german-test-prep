@@ -59,4 +59,24 @@ export const MODULES = [
       btnColor: "#0B0D14",
     },
   },
+  {
+    id: "faq",
+    route: "/faq",
+    title: "FAQ",
+    icon: "\u2753",
+    description:
+      "50 official FAQs about German citizenship \u2014 eligibility, application process, the naturalisation test, and the 2024 law reform.",
+    tags: ["50 Questions", "5 Topics", "Official Sources"],
+    cta: "Read FAQs",
+    accent: {
+      text: "#A855F7",
+      border: "rgba(168,85,247,0.15)",
+      borderHover: "rgba(168,85,247,0.5)",
+      shadow: "rgba(168,85,247,0.1)",
+      tagBg: "rgba(168,85,247,0.1)",
+      tagBorder: "rgba(168,85,247,0.2)",
+      btnBg: "#A855F7",
+      btnColor: "#FFFFFF",
+    },
+  },
 ];

@@ -2,7 +2,7 @@
 // so GitHub Pages serves them with 200 (not 404 via 404.html)
 import { cpSync, mkdirSync } from 'fs';
 
-const routes = ['citizenship', 'b1-german', 'eligibility'];
+const routes = ['citizenship', 'b1-german', 'eligibility', 'faq'];
 const src = 'dist/index.html';
 
 for (const route of routes) {
