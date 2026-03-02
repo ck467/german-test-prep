@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useStyles from "../useStyles.js";
 import ThemeToggle from "../components/shared/ThemeToggle.jsx";
@@ -6,6 +7,15 @@ import { MODULES } from "../data/modules.js";
 export default function LandingPage() {
   const navigate = useNavigate();
   const { S, isMobile } = useStyles();
+  const [activeTab, setActiveTab] = useState(0);
+
+  const TOOL_ROUTES = {
+    "B1 German": "/b1-german",
+    "Citizenship module": "/citizenship",
+    "Eligibility Check": "/eligibility",
+  };
+
+  const TABS = ["FAQs", "Coming Soon"];
 
   return (
     <div style={S.root}>
@@ -77,64 +87,6 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* What You Get — Feature Details */}
-        <div style={{ marginTop: 48 }}>
-          <h2 style={{ ...S.h2, fontSize: isMobile ? 20 : 28, textAlign: "center", marginBottom: 24 }}>What You Get</h2>
-          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 20 }}>
-            {[
-              {
-                title: "Einb\u00FCrgerungstest Prep",
-                icon: "\uD83C\uDDE9\uD83C\uDDEA",
-                color: "#F5C842",
-                border: "rgba(245,200,66,0.15)",
-                items: [
-                  "300 official BAMF questions",
-                  "160 state-specific questions",
-                  "Timed exam simulation (33 questions, 60 min)",
-                  "English translations for every question",
-                  "Progress tracking across all categories",
-                ],
-              },
-              {
-                title: "B1 German Exam Prep",
-                icon: "\uD83D\uDCD6",
-                color: "#60A5FA",
-                border: "rgba(96,165,250,0.15)",
-                items: [
-                  "3,000+ vocabulary flashcards",
-                  "Goethe & telc B1 practice materials",
-                  "Structured study plans",
-                  "Grammar cheat sheets",
-                  "24 topic-based categories",
-                ],
-              },
-              {
-                title: "Eligibility Check",
-                icon: "\u2705",
-                color: "#10B981",
-                border: "rgba(16,185,129,0.15)",
-                items: [
-                  "10-question self-assessment",
-                  "Residency & income checks",
-                  "Language requirement verification",
-                  "Instant results with guidance",
-                  "Based on the Staatsangeh\u00F6rigkeitsgesetz (StAG)",
-                ],
-              },
-            ].map((feature) => (
-              <div key={feature.title} style={{ ...S.card({ padding: isMobile ? "20px 16px" : "24px 24px" }), borderColor: feature.border }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>{feature.icon}</div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? 16 : 18, fontWeight: 600, color: feature.color, marginTop: 0, marginBottom: 12 }}>{feature.title}</h3>
-                <ul style={{ margin: 0, paddingLeft: 18, listStyle: "disc" }}>
-                  {feature.items.map((item) => (
-                    <li key={item} style={{ color: S.p.textMuted, fontSize: 14, lineHeight: 1.7 }}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Your Path to German Citizenship — Journey Steps */}
         <div style={{ marginTop: 48 }}>
           <h2 style={{ ...S.h2, fontSize: isMobile ? 20 : 28, textAlign: "center", marginBottom: 8 }}>Your Path to German Citizenship</h2>
@@ -155,7 +107,13 @@ export default function LandingPage() {
                 <div key={s.step} style={{ position: "relative", marginBottom: 24 }}>
                   <div style={{ position: "absolute", left: -32, top: 0, width: 24, height: 24, borderRadius: "50%", background: s.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "#0B0D14" }}>{s.step}</div>
                   <div style={{ fontWeight: 600, color: S.p.headingText, fontSize: 15, marginBottom: 4 }}>{s.title}</div>
-                  <div style={{ fontSize: 13, color: s.color }}>&#8594; {s.tool}</div>
+                  <div style={{ fontSize: 13, color: s.color }}>&#8594;{" "}
+                    {TOOL_ROUTES[s.tool] ? (
+                      <span onClick={() => navigate(TOOL_ROUTES[s.tool])} style={{ textDecoration: "underline", cursor: "pointer" }}>{s.tool}</span>
+                    ) : (
+                      <span style={{ opacity: 0.6 }}>{s.tool}</span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -173,77 +131,102 @@ export default function LandingPage() {
                 <div key={s.step} style={{ textAlign: "center", flex: 1, position: "relative" }}>
                   <div style={{ width: 26, height: 26, borderRadius: "50%", background: s.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: "#0B0D14", margin: "0 auto 10px", position: "relative", zIndex: 1 }}>{s.step}</div>
                   <div style={{ fontWeight: 600, color: S.p.headingText, fontSize: 13, marginBottom: 4, padding: "0 4px" }}>{s.title}</div>
-                  <div style={{ fontSize: 12, color: s.color }}>&#8594; {s.tool}</div>
+                  <div style={{ fontSize: 12, color: s.color }}>&#8594;{" "}
+                    {TOOL_ROUTES[s.tool] ? (
+                      <span onClick={() => navigate(TOOL_ROUTES[s.tool])} style={{ textDecoration: "underline", cursor: "pointer" }}>{s.tool}</span>
+                    ) : (
+                      <span style={{ opacity: 0.6 }}>{s.tool}</span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* FAQ Section */}
+        {/* Tabs: FAQs | Coming Soon */}
         <div style={{ marginTop: 48 }}>
-          <h2 style={{ ...S.h2, fontSize: isMobile ? 20 : 28, textAlign: "center", marginBottom: 24 }}>Frequently Asked Questions</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 720, margin: "0 auto" }}>
-            {[
-              {
-                q: "How many questions are on the Einb\u00FCrgerungstest?",
-                a: "The official Einb\u00FCrgerungstest consists of 33 questions drawn from a pool of 300 general knowledge questions plus 10 state-specific questions for your Bundesland. You need at least 17 correct answers (over 50%) to pass. The test takes 60 minutes. Our practice tool covers all 300 general questions and all 160 state-specific questions across all 16 German states.",
-              },
-              {
-                q: "What is the B1 German exam, and which version should I take?",
-                a: "B1 is the intermediate level of the Common European Framework of Reference (CEFR) for languages. For German citizenship, you need to prove B1-level German. The two most widely accepted exams are the Goethe-Zertifikat B1 (from the Goethe-Institut) and the telc Deutsch B1. Both test reading, listening, writing, and speaking. The Goethe exam is internationally recognized, while telc is popular within Germany. Either certificate is accepted for the citizenship application.",
-              },
-              {
-                q: "Is the B1 German exam required for German citizenship?",
-                a: "Yes. Under the Staatsangeh\u00F6rigkeitsgesetz (StAG), applicants must demonstrate German language skills at B1 level or higher. You can prove this with a Goethe-Zertifikat B1, telc Deutsch B1, or an equivalent recognized certificate. Exceptions may apply if you have a German school diploma, a university degree from a German-language program, or in certain hardship cases.",
-              },
-              {
-                q: "How long do you have to live in Germany to apply for citizenship?",
-                a: "The standard requirement is 8 years of lawful habitual residence in Germany. This can be reduced to 7 years if you complete an integration course, or to 6 years if you demonstrate special integration achievements (e.g., excellent German skills at B2 or higher, volunteer work, or professional accomplishments). Spouses of German citizens may apply after 3 years of residence if they have been married for at least 2 years.",
-              },
-              {
-                q: "What documents do I need for the German citizenship application?",
-                a: "Typical documents include a valid passport, birth certificate, proof of residence (Meldebescheinigung), B1 language certificate, Einb\u00FCrgerungstest certificate, proof of income or employment, proof of pension contributions, a clean criminal record, and proof of giving up your previous citizenship (if required). Requirements can vary by state and individual circumstances — check with your local Einb\u00FCrgerungsbeh\u00F6rde for the exact list.",
-              },
-              {
-                q: "Is dual citizenship allowed in Germany?",
-                a: "Since the reform of June 2024, Germany generally allows dual citizenship for all naturalization applicants. Previously, most applicants had to give up their existing citizenship, with exceptions for EU citizens and cases of unreasonable hardship. Under the new rules, you can keep your current nationality when naturalizing as a German citizen. This also applies retroactively — Germans who previously lost their citizenship by acquiring another can now reclaim it.",
-              },
-            ].map((faq) => (
-              <div key={faq.q} style={{ ...S.card({ padding: isMobile ? "16px 16px" : "20px 24px" }) }}>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? 15 : 16, fontWeight: 600, color: S.p.headingText, marginTop: 0, marginBottom: 8 }}>{faq.q}</h3>
-                <p style={{ color: S.p.textMuted, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Coming Soon Teasers */}
-        <div style={{ marginTop: 32 }}>
-          <div style={{ textAlign: "center", marginBottom: 16 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: S.p.textMuted }}>Coming Soon</span>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
-            {[
-              { icon: "\uD83D\uDCDD", title: "Full Mock Exams", desc: "Complete timed Goethe & telc B1 practice exams with all sections — Lesen, H\u00F6ren, Schreiben, Sprechen", color: "#A855F7", border: "rgba(168,85,247,0.12)" },
-              { icon: "\uD83D\uDCC4", title: "Document Checklist", desc: "Sample forms, required documents, and templates you need for your Einb\u00FCrgerung application", color: "#F59E0B", border: "rgba(245,158,11,0.12)" },
-            ].map((t) => (
-              <div
-                key={t.title}
+          <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
+            {TABS.map((tab, i) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(i)}
                 style={{
-                  ...S.card({ padding: "20px 20px" }),
-                  textAlign: "center",
-                  borderColor: t.border,
-                  opacity: 0.6,
+                  padding: "8px 20px",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: activeTab === i ? 700 : 500,
+                  cursor: "pointer",
+                  border: "1px solid transparent",
+                  background: activeTab === i ? "#F5C842" : S.p.ghostBtnBg,
+                  color: activeTab === i ? "#0B0D14" : S.p.textMuted,
+                  transition: "all 0.2s",
                 }}
               >
-                <div style={{ fontSize: 28, marginBottom: 10 }}>{t.icon}</div>
-                <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 15, marginBottom: 6 }}>{t.title}</div>
-                <div style={{ color: S.p.textMuted, fontSize: 13, lineHeight: 1.5, marginBottom: 12 }}>{t.desc}</div>
-                <span style={{ fontSize: 11, fontWeight: 600, color: t.color, letterSpacing: 0.5 }}>Coming Soon</span>
-              </div>
+                {tab}
+              </button>
             ))}
           </div>
+
+          {activeTab === 0 && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 720, margin: "0 auto" }}>
+              {[
+                {
+                  q: "How many questions are on the Einb\u00FCrgerungstest?",
+                  a: "The official Einb\u00FCrgerungstest consists of 33 questions drawn from a pool of 300 general knowledge questions plus 10 state-specific questions for your Bundesland. You need at least 17 correct answers (over 50%) to pass. The test takes 60 minutes. Our practice tool covers all 300 general questions and all 160 state-specific questions across all 16 German states.",
+                },
+                {
+                  q: "What is the B1 German exam, and which version should I take?",
+                  a: "B1 is the intermediate level of the Common European Framework of Reference (CEFR) for languages. For German citizenship, you need to prove B1-level German. The two most widely accepted exams are the Goethe-Zertifikat B1 (from the Goethe-Institut) and the telc Deutsch B1. Both test reading, listening, writing, and speaking. The Goethe exam is internationally recognized, while telc is popular within Germany. Either certificate is accepted for the citizenship application.",
+                },
+                {
+                  q: "Is the B1 German exam required for German citizenship?",
+                  a: "Yes. Under the Staatsangeh\u00F6rigkeitsgesetz (StAG), applicants must demonstrate German language skills at B1 level or higher. You can prove this with a Goethe-Zertifikat B1, telc Deutsch B1, or an equivalent recognized certificate. Exceptions may apply if you have a German school diploma, a university degree from a German-language program, or in certain hardship cases.",
+                },
+                {
+                  q: "How long do you have to live in Germany to apply for citizenship?",
+                  a: "The standard requirement is 8 years of lawful habitual residence in Germany. This can be reduced to 7 years if you complete an integration course, or to 6 years if you demonstrate special integration achievements (e.g., excellent German skills at B2 or higher, volunteer work, or professional accomplishments). Spouses of German citizens may apply after 3 years of residence if they have been married for at least 2 years.",
+                },
+                {
+                  q: "What documents do I need for the German citizenship application?",
+                  a: "Typical documents include a valid passport, birth certificate, proof of residence (Meldebescheinigung), B1 language certificate, Einb\u00FCrgerungstest certificate, proof of income or employment, proof of pension contributions, a clean criminal record, and proof of giving up your previous citizenship (if required). Requirements can vary by state and individual circumstances — check with your local Einb\u00FCrgerungsbeh\u00F6rde for the exact list.",
+                },
+                {
+                  q: "Is dual citizenship allowed in Germany?",
+                  a: "Since the reform of June 2024, Germany generally allows dual citizenship for all naturalization applicants. Previously, most applicants had to give up their existing citizenship, with exceptions for EU citizens and cases of unreasonable hardship. Under the new rules, you can keep your current nationality when naturalizing as a German citizen. This also applies retroactively — Germans who previously lost their citizenship by acquiring another can now reclaim it.",
+                },
+              ].map((faq) => (
+                <div key={faq.q} style={{ ...S.card({ padding: isMobile ? "16px 16px" : "20px 24px" }) }}>
+                  <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: isMobile ? 15 : 16, fontWeight: 600, color: S.p.headingText, marginTop: 0, marginBottom: 8 }}>{faq.q}</h3>
+                  <p style={{ color: S.p.textMuted, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 1 && (
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
+              {[
+                { icon: "\uD83D\uDCDD", title: "Full Mock Exams", desc: "Complete timed Goethe & telc B1 practice exams with all sections — Lesen, H\u00F6ren, Schreiben, Sprechen", color: "#A855F7", border: "rgba(168,85,247,0.12)" },
+                { icon: "\uD83D\uDCC4", title: "Document Checklist", desc: "Sample forms, required documents, and templates you need for your Einb\u00FCrgerung application", color: "#F59E0B", border: "rgba(245,158,11,0.12)" },
+              ].map((t) => (
+                <div
+                  key={t.title}
+                  style={{
+                    ...S.card({ padding: "20px 20px" }),
+                    textAlign: "center",
+                    borderColor: t.border,
+                    opacity: 0.6,
+                  }}
+                >
+                  <div style={{ fontSize: 28, marginBottom: 10 }}>{t.icon}</div>
+                  <div style={{ fontWeight: 700, color: S.p.headingText, fontSize: 15, marginBottom: 6 }}>{t.title}</div>
+                  <div style={{ color: S.p.textMuted, fontSize: 13, lineHeight: 1.5, marginBottom: 12 }}>{t.desc}</div>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: t.color, letterSpacing: 0.5 }}>Coming Soon</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div style={{ textAlign: "center", color: S.p.textMuted, fontSize: 13, marginTop: 24 }}>
