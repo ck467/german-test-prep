@@ -10,7 +10,6 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(3600);
-  const [startTime, setStartTime] = useState(null);
   const [showTranslations, setShowTranslations] = useState(false);
 
   const stateName = STATES.find(s => s.key === selectedState)?.name || selectedState;
@@ -35,7 +34,6 @@ export default function ExamMode({ selectedState, onBack, onComplete }) {
     setQuestions([...genQ, ...stateQ]);
     setAnswers({});
     setTimeLeft(3600);
-    setStartTime(Date.now());
     setPhase("active");
   }, [selectedState]);
 

@@ -62,13 +62,5 @@ export function getStyles(theme) {
       border: "none", borderRadius: 8, padding: "10px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.15s",
     }),
     backBtn: { background: "none", border: `1px solid ${p.border08}`, color: p.textMuted, padding: "6px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13 },
-    progress: (pct, color = "#F5C842") => ({
-      height: 4, background: p.progressTrack, borderRadius: 2, overflow: "hidden",
-      after: { width: `${pct}%`, height: "100%", background: color, display: "block" }
-    }),
   };
 }
-
-// Default export for backwards compatibility during migration
-const S = getStyles("dark");
-export default S;
